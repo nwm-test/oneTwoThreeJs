@@ -1,0 +1,22 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "test phaser addition game",
+  "main": "index.js",
+  "dependencies": {
+    "phaser": "^3.18.1",
+    "phaser3-project-template": "^1.0.9"
+  },
+  "devDependencies": {
+    "raw-loader": "^3.0.0",
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.7.2"
+  },
+  "scripts": {
+    "build": "webpack",
+    "start": "npm run build && webpack-dev-server --port=8000"
+  },
+  "author": "Anna Dmitrieva",
+  "license": "ISC"
+}
