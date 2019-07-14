@@ -1,19 +1,10 @@
 export class Grid extends Phaser.GameObjects.Grid {
   //Erzeuge Gitter relativ zum CANVAS
   constructor(scene, gridArea) {
-    //Grid Koordinaten und Anzahl der Spalten
-    // var gridArea = {
-    //   left: marginLeft,
-    //   width: bordWidth,
-    //   top: marginTop,
-    //   height: bordHeight,
-    //   columnCount: 14,
-    // }
-
     gridArea.centerX = gridArea.left + gridArea.width/2;
     gridArea.centerY = gridArea.top + gridArea.height/2;
     gridArea.cellSize = gridArea.width/gridArea.columnCount;
-    gridArea.fontSize = gridArea.cellSize;
+    gridArea.fontSize = gridArea.cellSize*0.6;
     console.log(scene, gridArea);
 
     super(scene, gridArea.centerX, gridArea.centerY, gridArea.width, gridArea.height, gridArea.cellSize, gridArea.cellSize, 0xe0e0e0, 1, 0xaaaaaa, 1);
@@ -27,7 +18,7 @@ export class Grid extends Phaser.GameObjects.Grid {
 
     scene.add.existing(this);
   }
-
+  // Schreibe in ein Kästchen
   writeInCell(x, y, character) {
     var newX = this.gridArea.left + (x+0.5)*this.gridArea.cellSize;
     var newY = this.gridArea.top + (y+0.5)*this.gridArea.cellSize;
@@ -41,17 +32,34 @@ export class Grid extends Phaser.GameObjects.Grid {
     newText.setPosition(newX, newY);
     this.writtenText[x][y] = newText;
   }
-
-
+  // Schreibe in mehrere Kästchen, Startpos: x,y
   writeAtCell(x, y, text) {
     for(var i=0;i<text.length;i++) {
       this.writeInCell(x+i, y, text.charAt(i));
     }
   }
+  // Schreibe von rechts nach links
   writeAtCellRightToLeft(x, y, text) {
     for(var i=0;i<text.length;i++) {
       this.writeInCell(x-i, y, text.charAt(text.length - i - 1));
     }
+  }
+  // Schreibe gemerkte Zahl
+  writeRemainder(x,y, number) {
+    var newX = this.gridArea.left + (x+0.9)*this.gridArea.cellSize;
+    var newY = this.gridArea.top + (y+0.2)*this.gridArea.cellSize;
+    console.log(this.writtenText, x, y)
+    console.log(this.writtenText[x])
+    if(this.writtenText[x][y]) {
+      this.writtenText[x][y].destroy();
+    }
+    var newText = this.scene.add.text(-10, -10, number, { fill: '#377422', fontSize: 0.6*this.gridArea.fontSize+'px'});
+
+    newX -= newText.getCenter().x+10;
+    newY -= newText.getCenter().y+10;
+    newText.setPosition(newX, newY);
+    this.writtenText[x][y] = newText;
+
   }
 
   selectCell(x, y) {
@@ -62,9 +70,8 @@ export class Grid extends Phaser.GameObjects.Grid {
 
     var graphics = this.scene.add.graphics();
 
-    graphics.lineStyle(1, 0xFF0000, 1.0);
+    graphics.lineStyle(2, 0xFBAB09, 1.0);
     graphics.strokeRect(this.gridArea.left + x*this.gridArea.cellSize, this.gridArea.top + y*this.gridArea.cellSize, this.gridArea.cellSize, this.gridArea.cellSize);
-
     this.selection = graphics;
   }
 
