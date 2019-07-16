@@ -28,7 +28,7 @@ export class NumberScene extends Phaser.Scene {
   }
 
   createNumberButtons() {
-    console.log(this.userInput);
+    debug.log(this.userInput);
     this.buttons = [];
     this.input.keyboard.on('keydown', (event)=> this.createKeyDown(event));
     for (var i = 0; i < 10; i++) {
@@ -38,7 +38,7 @@ export class NumberScene extends Phaser.Scene {
     }
   }
   createKeyDown(event) {
-    console.log(event);
+    debug.log(event);
     if (event.keyCode >= 48 && event.keyCode <= 57) {
       this.onButtonPressed(event.keyCode-48);
     }
@@ -51,10 +51,10 @@ export class NumberScene extends Phaser.Scene {
 
 
   onButtonPressed(number) {
-    console.log(number, this.result);
+    debug.log(number, this.result);
     var newInput = this.userInput + number * Math.pow(10, this.cursorIndex)
     var partResult = this.result % Math.pow(10, this.cursorIndex+1)
-    console.log(newInput, partResult, this.result);
+    debug.log(newInput, partResult, this.result);
     if(newInput == partResult) {
       // richtige eingabe
       this.board.grid.writeInCell(this.board.grid.selectionX, this.board.grid.selectionY, number);
@@ -103,7 +103,7 @@ export class NumberScene extends Phaser.Scene {
     this.number2 = Math.floor(Math.random() * maxValue);
     this.operator = '+';
     this.result = this.number1 + this.number2;
-    console.log(this.number1, this.number2, this.result);
+    debug.log(this.number1, this.number2, this.result);
     var whiteSpaceResult = ('' + this.result).replace(/[0-9]/g, ' ');
     this.problem = this.number1 + this.operator + this.number2 + '=' + whiteSpaceResult;
   }

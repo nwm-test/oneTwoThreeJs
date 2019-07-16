@@ -5,7 +5,7 @@ export class Grid extends Phaser.GameObjects.Grid {
     gridArea.centerY = gridArea.top + gridArea.height/2;
     gridArea.cellSize = gridArea.width/gridArea.columnCount;
     gridArea.fontSize = gridArea.cellSize*0.6;
-    console.log(scene, gridArea);
+    debug.log(scene, gridArea);
 
     super(scene, gridArea.centerX, gridArea.centerY, gridArea.width, gridArea.height, gridArea.cellSize, gridArea.cellSize, 0xe0e0e0, 1, 0xaaaaaa, 1);
 
@@ -48,8 +48,8 @@ export class Grid extends Phaser.GameObjects.Grid {
   writeRemainder(x,y, number) {
     var newX = this.gridArea.left + (x+0.9)*this.gridArea.cellSize;
     var newY = this.gridArea.top + (y+0.2)*this.gridArea.cellSize;
-    console.log(this.writtenText, x, y)
-    console.log(this.writtenText[x])
+    debug.log(this.writtenText, x, y)
+    debug.log(this.writtenText[x])
     if(this.writtenText[x][y]) {
       this.writtenText[x][y].destroy();
     }

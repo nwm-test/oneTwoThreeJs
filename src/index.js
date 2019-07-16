@@ -2,11 +2,11 @@ import 'phaser';
 import { GameStart } from './gameStart';
 import { Buttons } from './buttons';
 import { NumberScene } from './numberScene';
-//import { Arithmetic1 } from './arithmetic1';
-//import { Arithmetic2 } from './arithmetic2';
+import { Debug } from './debug';
 
 
-// Konfiguration für Phaser
+
+// Phaser configuration
 var config = {
     type: Phaser.AUTO,
     parent: 'phaser-qs',
@@ -14,12 +14,15 @@ var config = {
     height: 600,
     scene: [GameStart, NumberScene]
 }
-// Namen der Szenen: globale Variablen
+// Scene names: global variables
 window.SCENES = {
     START: "GameStart",
     ZAHLEN: "Numbers",
     RECHNEN1: "Arithmetic1",
     RECHNEN2: "Arithmetic2"
 }
-// Starte das Phaser Spiel
+// global Debug class ([overwriteConsole], [logMessages], [logErrors])
+window.debug = new Debug(true, true, true);
+    debug.log("test");
+// start phaser game
 var game = new Phaser.Game(config);

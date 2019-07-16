@@ -1,0 +1,10 @@
+TODO:
+
+  //vertikale darstellung
+  //ZahlenButtons schöner
+  //displaymanger /Itemmangager
+  //unittest
+  //UML
+
+DONE:
+  // console.log class
