@@ -1,4 +1,5 @@
 import 'phaser';
+import { PlayerScene } from './playerScene';
 import { GameStart } from './gameStart';
 import { Buttons } from './buttons';
 import { NumberScene } from './numberScene';
@@ -12,14 +13,13 @@ var config = {
     parent: 'phaser-qs',
     width: 800,
     height: 600,
-    scene: [GameStart, NumberScene]
+    scene: [PlayerScene, GameStart, NumberScene]
 }
 // Scene names: global variables
 window.SCENES = {
+    PLAYER: "PlayerScene",
     START: "GameStart",
-    ZAHLEN: "Numbers",
-    RECHNEN1: "Arithmetic1",
-    RECHNEN2: "Arithmetic2"
+    NUMBERS: "Numbers",
 }
 // global Debug class ([overwriteConsole], [logMessages], [logErrors])
 window.debug = new Debug(true, true, true);

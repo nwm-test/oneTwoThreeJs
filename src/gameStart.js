@@ -1,9 +1,11 @@
-import {
-  Buttons
-} from './buttons';
+import { Buttons} from './buttons';
+
 export class GameStart extends Phaser.Scene {
   constructor() {
     super(SCENES.START);
+  }
+  init(data) {
+    this.gameData = data;
   }
   //Lade alle Dateien
   preload() {
@@ -22,8 +24,8 @@ export class GameStart extends Phaser.Scene {
 
     var zahlenButton = new Buttons(this, 240, 370, 'DIE ZAHLEN', {
       fill: '#fff'
-    }, () => this.scene.start(SCENES.ZAHLEN));
-
+    }, () => this.scene.start(SCENES.NUMBERS, this.gameData));
+    alert('hallo '+this.gameData.playerManager.players[0].name+'!', 'Los gehts!')
   }
 }
 //- this: refers to the class and all its defined members and functions & to the extended class (in your case
