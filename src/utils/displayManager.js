@@ -1,11 +1,12 @@
-  import { Grid } from './grid';
-  import { Board } from './board';
-  import { Buttons } from './buttons';
+// In this class the output on the screen is generated
+  import { Grid } from '../display/grid';
+  import { Board } from '../display/board';
+  import { Buttons } from '../display/buttons';
 
 // displays the problem to choisen player on screen; called in "SCENES". Dependencies: playerManager.js, numberScene.js
 export class DisplayManager {
   constructor(scene, onProblemSolvedCallback) {
-    // parametrize by grid.js and board.js
+    // parametrise by grid.js and board.js
     this.scene = scene;
     this.board = new Board(scene);
     this.createNumberButtons();

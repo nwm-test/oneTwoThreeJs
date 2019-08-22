@@ -18,7 +18,7 @@ export class Board {
     board.fillRect(this.marginLeft, this.marginTop, this.boardWidth, this.boardHeight);
     board.strokeRect(this.marginLeft,this.marginTop, this.boardWidth, this.boardHeight);
 
-    // Setze Gitterparameter
+    // set grid parameter
     var gridArea = {
       left: this.marginLeft,
       width: this.boardWidth,
@@ -26,11 +26,12 @@ export class Board {
       height: this.boardHeight,
       columnCount: 14,
     }
-    // Übergebe die Parameter an die Funktion aus grid.js
+    // give parameter to function in grid.js
     this.grid = new Grid(scene, gridArea);
-    this.scene =scene;
+    this.scene = scene;
 
   }
+  // infotext on top
   showInfo(text, color) {
     var style = { fill: color, fontSize: '22px'};
     if(this.info)

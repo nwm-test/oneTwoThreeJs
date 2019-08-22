@@ -1,10 +1,11 @@
 export class Buttons extends Phaser.GameObjects.Text {
+  //
   constructor(scene, x, y, text, style, callback) {
     super(scene, x, y, text, style);
     this.background = scene.add.graphics()
     this.background.lineStyle(5, 0xFF00FF, 1.0);
-    this.background.fillStyle(0xFFFFFF, 1.0);
-    this.background.fillRect(this.getTopLeft().x, this.getTopLeft().y, this.getBounds().width, this.getBounds().height);
+    this.background.fillStyle(0xFFFFFF, 1.5);
+    this.background.fillRect(this.getTopLeft().x-1, this.getTopLeft().y-1, this.getBounds().width+5.5, this.getBounds().height+2.5);
     //this.strokeRect(this.marginLeft,this.marginTop, this.boardWidth, this.boardHeight);
 
     this.setInteractive({ useHandCursor: true })

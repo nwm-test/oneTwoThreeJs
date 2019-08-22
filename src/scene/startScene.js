@@ -1,4 +1,4 @@
-import { Buttons} from './buttons';
+import { Buttons} from '../display/buttons';
 
 export class GameStart extends Phaser.Scene {
   constructor() {
@@ -9,7 +9,7 @@ export class GameStart extends Phaser.Scene {
   }
   //Lade alle Dateien
   preload() {
-    this.load.image('gameStartBackground', 'assets/title_addi.png');
+    this.load.image('startSceneBackground', 'assets/title_addi.png');
     this.load.image('netzwerkmedien', 'assets/netzwerkmedien.png');
   }
   // Erstelle Objekte
@@ -19,13 +19,16 @@ export class GameStart extends Phaser.Scene {
       width,
       height
     } = this.sys.game.canvas;
-    var background = this.add.image(0, 0, 'gameStartBackground').setOrigin(0, 0);
+    var background = this.add.image(0, 0, 'startSceneBackground').setOrigin(0, 0);
     var netzwerkmedien = this.add.image(width - 60, height - 16, 'netzwerkmedien');
 
     var zahlenButton = new Buttons(this, 240, 370, 'DIE ZAHLEN', {
       fill: '#fff'
     }, () => this.scene.start(SCENES.NUMBERS, this.gameData));
+    // this.scenestart(SCENES.NUMBERS, this.gameData);
     alert('hallo '+this.gameData.playerManager.players[0].name+'!', 'Los gehts!')
+
+
   }
 }
 //- this: refers to the class and all its defined members and functions & to the extended class (in your case

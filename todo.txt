@@ -1,10 +1,17 @@
 TODO:
-
-  //vertikale darstellung
-  //ZahlenButtons schöner
-  //displaymanger /Itemmangager
-  //unittest
-  //UML
+  
+  // level auswahl
+  // device window anpassen
+  // inputManager aufbauen
+  // vertikale darstellung
+  // unittest
+  // UML
 
 DONE:
-  // console.log class
+
+  // Struktur:
+               scene:   all scenes
+               display: all visual elements
+               utils:   managing logic
+  // pop-up Fenster anpassen
+  // console.log class(debug,js)

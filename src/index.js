@@ -1,8 +1,8 @@
 import 'phaser';
-import { PlayerScene } from './playerScene';
-import { GameStart } from './gameStart';
-import { Buttons } from './buttons';
-import { NumberScene } from './numberScene';
+import { PlayerScene } from './scene/playerScene';
+import { GameStart } from './scene/startScene';
+import { Buttons } from './display/buttons';
+import { NumberScene } from './scene/numberScene';
 import { Debug } from './debug';
 
 

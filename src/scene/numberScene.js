@@ -1,23 +1,24 @@
-import { Buttons } from './buttons';
-import { Board } from './board';
-import { DisplayManager } from './displayManager';
-import { ProblemManager } from './problemManager';
+// in this scene user solves problems
+import { DisplayManager } from '../utils/displayManager';
+import { ProblemManager } from '../utils/problemManager';
 
 export class NumberScene extends Phaser.Scene {
   constructor() {
     super(SCENES.NUMBERS);
   }
-  //Lade alle Dateien
+  // Load all objects
   preload() {
 
   }
   // Create objects
   create() {
+    // use problemManager to generate and displayManager to show problems
     this.displayManager = new DisplayManager(this, this.onProblemSolved);
     this.problemManager = new ProblemManager();
     var problem = this.problemManager.generateProblem();
     this.displayManager.showProblem(problem);
   }
+  // generate next problem
   onProblemSolved() {
     var problem = this.problemManager.generateProblem();
     this.displayManager.showProblem(problem);

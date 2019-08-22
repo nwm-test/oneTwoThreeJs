@@ -1,5 +1,5 @@
-import { Board } from './board';
-import { Grid } from './grid';
+import { Board } from '../display/board';
+import { Grid } from '../display/grid';
 
 // class to generate problem, will be called in "SCENES". Dependencies: playerManager.js, numberScene.js
 export class ProblemManager {
@@ -7,7 +7,6 @@ export class ProblemManager {
 
 
   }
-
 
   generateProblem() {
     return this.generateProblemPlus();
