@@ -4,7 +4,7 @@ export class Board {
   constructor(scene) {
     //var width = this.sys.game.canvas.width; var height = this.sys.game.canvas.height;
 
-    // Definiere Tafelhöhe und -breite
+    // Calculate position to place the board in the center
     this.canvasWidth = scene.sys.game.canvas.width;
     this.canvasHeight = scene.sys.game.canvas.height;
     this.boardWidth = this.canvasWidth * 2 / 3;

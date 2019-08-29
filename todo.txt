@@ -1,17 +1,28 @@
 TODO:
-  
+  // mal aufgaben -> hochzahlen?
+  // phaser 3 -> onresize
+  // Mal Aufgaben
+  // Geteilt
+  // numberScene: this.gameData -> global speichern
+  // displaymanager: fontSize anpassen
+  // board: showInfo erweitern
   // level auswahl
-  // device window anpassen
   // inputManager aufbauen
   // vertikale darstellung
   // unittest
   // UML
 
 DONE:
-
+  // Minus Aufgaben
+  // device window anpassen
+  // displaymanager: var w = window.outerWidth;
+                   var h = window.outerHeight;
+  // return Button zur vorherigen scene und startScene
+  // displayManager Z. 23: position parametrisieren
   // Struktur:
                scene:   all scenes
                display: all visual elements
                utils:   managing logic
-  // pop-up Fenster anpassen
+  // Eingabe Fenster anpassen
+  // Spieler anmelden
   // console.log class(debug,js)

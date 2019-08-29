@@ -6,6 +6,9 @@ export class NumberScene extends Phaser.Scene {
   constructor() {
     super(SCENES.NUMBERS);
   }
+  init(data) {
+    this.gameData = data;
+  }
   // Load all objects
   preload() {
 
@@ -15,13 +18,17 @@ export class NumberScene extends Phaser.Scene {
     // use problemManager to generate and displayManager to show problems
     this.displayManager = new DisplayManager(this, this.onProblemSolved);
     this.problemManager = new ProblemManager();
-    var problem = this.problemManager.generateProblem();
+    var problem = this.problemManager.generateProblem(this.gameData.problemType);
     this.displayManager.showProblem(problem);
   }
   // generate next problem
   onProblemSolved() {
-    var problem = this.problemManager.generateProblem();
+    var problem = this.problemManager.generateProblem(this.gameData.problemType);
     this.displayManager.showProblem(problem);
+  }
+  // call startScene
+    backToStart() {
+    this.scene.start(SCENES.START, this.gameData);
   }
 }
 //- this: refers to the class and all its defined members and functions & to the extended class (in your case

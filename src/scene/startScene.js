@@ -6,6 +6,7 @@ export class GameStart extends Phaser.Scene {
   }
   init(data) {
     this.gameData = data;
+    console.log(data);
   }
   //Lade alle Dateien
   preload() {
@@ -19,24 +20,32 @@ export class GameStart extends Phaser.Scene {
       width,
       height
     } = this.sys.game.canvas;
-    var background = this.add.image(0, 0, 'startSceneBackground').setOrigin(0, 0);
-    var netzwerkmedien = this.add.image(width - 60, height - 16, 'netzwerkmedien');
+    var background = this.add.image(width*0.16, height*0.15, 'startSceneBackground').setOrigin(0, 0);
+    var netzwerkmedien = this.add.image(width*0.96, height*0.02, 'netzwerkmedien');
 
-    var zahlenButton = new Buttons(this, 240, 370, 'DIE ZAHLEN', {
+    var plusButton = new Buttons(this, width*0.32, height*0.6, 'RECHNEN +', {
       fill: '#fff'
-    }, () => this.scene.start(SCENES.NUMBERS, this.gameData));
-    // this.scenestart(SCENES.NUMBERS, this.gameData);
-    alert('hallo '+this.gameData.playerManager.players[0].name+'!', 'Los gehts!')
-
-
+    }, () => {
+      this.gameData.problemType = 'plus';
+      this.scene.start(SCENES.NUMBERS, this.gameData)
+    });
+    var minusButton = new Buttons(this, width*0.32, height*0.64, 'RECHNEN -', {
+      fill: '#fff'
+    }, () => {
+      this.gameData.problemType = 'minus';
+      this.scene.start(SCENES.NUMBERS, this.gameData)
+    });
+    var multiplyButton = new Buttons(this, width*0.42, height*0.6, 'RECHNEN *', {
+      fill: '#fff'
+    }, () => {
+      this.gameData.problemType = 'multiply';
+      this.scene.start(SCENES.NUMBERS, this.gameData)
+    });
+    var divideButton = new Buttons(this, width*0.42, height*0.64, 'RECHNEN /', {
+      fill: '#fff'
+    }, () => {
+      this.gameData.problemType = 'divide';
+      this.scene.start(SCENES.NUMBERS, this.gameData)
+    });
   }
 }
-//- this: refers to the class and all its defined members and functions & to the extended class (in your case
-// the Phaser.Scene). So you can basically access all the public members and functions of Phaser.Scene.
-//-`let`: is a signal that the variable may be reassigned, such as a counter in a loop, or a value swap in
-// an algorithm. It also signals that the variable will be used only in the block it’s defined in,
-// which is not always the entire containing function.
-// -`var`: is the weakest signal available when you define a variable in JavaScript. The variable may or may
-// not be reassigned, and the variable may or may not be used for an entire function, or just for the purpose
-// of a block or loop.
-// -`const`: is a signal that the identifier won’t be reassigned.

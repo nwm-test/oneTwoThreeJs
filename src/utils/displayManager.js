@@ -5,24 +5,32 @@
 
 // displays the problem to choisen player on screen; called in "SCENES". Dependencies: playerManager.js, numberScene.js
 export class DisplayManager {
-  constructor(scene, onProblemSolvedCallback) {
+  constructor(scene, onProblemSolvedCallback, backToStart) {
     // parametrise by grid.js and board.js
     this.scene = scene;
     this.board = new Board(scene);
+    this.createReturnButton();
     this.createNumberButtons();
     this.board.showInfo('Viel Glück!!', '#f80');
     this.onProblemSolvedCallback = onProblemSolvedCallback;
-
   }
+
+    // create button to return to startScene
+    createReturnButton(){
+      var startSceneButton = new Buttons(this.scene, this.board.boardWidth*0.04 ,this.board.boardHeight*1.36, 'ZURÜCK', {
+        fill: '#FFFF00', fontSize:'15px'
+      }, () => this.scene.backToStart());
+    }
+    // set position of "number buttons" depending on board parameters
     createNumberButtons() {
       debug.log(this.userInput);
       this.buttons = [];
       // listen for key events
       this.scene.input.keyboard.on('keydown', (event)=> this.onKeyDown(event));
       for (var i = 0; i < 10; i++) {
-
-        this.createButton(this.board.grid.gridArea.left+i*45, 540, i);
+        this.createButton(this.board.grid.gridArea.left+i*45, this.board.grid.gridArea.height*1.32, i);
       }
+
     }
     // check if pressed key is a number
     onKeyDown(event) {
@@ -48,7 +56,7 @@ export class DisplayManager {
       if(newInput == partResult) {
         // right answer
         this.board.grid.writeInCell(this.board.grid.selectionX, this.board.grid.selectionY, number);
-        // right, but the number has more digits
+        // right answer, but the number has more digits
         if(newInput != this.problem.result) {
           this.board.grid.selectCell(this.board.grid.selectionX - 1, this.board.grid.selectionY);
           var remainder = Math.floor(((this.problem.number1% Math.pow(10, this.cursorIndex+1))+(this.problem.number2% Math.pow(10, this.cursorIndex+1)))/Math.pow(10, this.cursorIndex+1))
@@ -58,7 +66,7 @@ export class DisplayManager {
             this.board.grid.writeRemainder(this.board.grid.selectionX, this.board.grid.selectionY, " ");
           this.cursorIndex++;
         } else {
-          // right -> next problem
+          // right answer -> next problem
           this.board.showInfo('richtig! weiter so', '#0f0');
           this.difficulty++;
           this.scene.time.addEvent({
@@ -87,5 +95,4 @@ export class DisplayManager {
     this.cursorIndex = 0;
     this.userInput = 0;
   }
-
 }

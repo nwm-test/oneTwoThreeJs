@@ -17,8 +17,8 @@ export class PlayerScene extends Phaser.Scene {
       width,
       height
     } = this.sys.game.canvas;
-    var background = this.add.image(0, 0, 'startSceneBackground').setOrigin(0, 0);
-    var netzwerkmedien = this.add.image(width - 60, height - 16, 'netzwerkmedien');
+    var background = this.add.image(width*0.16, height*0.15, 'startSceneBackground').setOrigin(0, 0);
+    var netzwerkmedien = this.add.image(width*0.96, height*0.02, 'netzwerkmedien');
 
     // create new Players
     this.gameData= {
@@ -29,7 +29,7 @@ export class PlayerScene extends Phaser.Scene {
       fill: '#fff'
     }, () => this.loadOldPlayer());
     // registration button
-    var registryButton = new Buttons(this, width*0.32, height*0.67, 'Neuer Spieler', {
+    var registryButton = new Buttons(this, width*0.32, height*0.65, 'Neuer Spieler', {
       fill: '#fff'
     }, () => this.createNewUser());
 
@@ -38,6 +38,9 @@ export class PlayerScene extends Phaser.Scene {
   createNewUser() {
     var newName = prompt('Willkommen bei OneTwoThree! Wie heißt Du?', '');
     this.gameData.playerManager.addPlayer(newName);
+    // this.scenestart(SCENES.NUMBERS, this.gameData);
+    alert('hallo '+this.gameData.playerManager.players[0].name+'!', 'Los gehts!')
+
     this.scene.start(SCENES.START, this.gameData);
   }
 
@@ -45,6 +48,9 @@ export class PlayerScene extends Phaser.Scene {
   loadOldPlayer() {
     var newName = prompt('Willkommen bei OneTwoThree! Wie heißt dein alter Spieler?', '');
     this.gameData.playerManager.addPlayer(newName);
+    // this.scenestart(SCENES.NUMBERS, this.gameData);
+    alert('hallo '+this.gameData.playerManager.players[0].name+'!', 'Los gehts!')
+
     this.scene.start(SCENES.START, this.gameData);
   }
 }
