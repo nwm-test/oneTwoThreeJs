@@ -5,7 +5,7 @@ export class Grid extends Phaser.GameObjects.Grid {
     gridArea.centerY = gridArea.top + gridArea.height/2;
     gridArea.cellSize = gridArea.width/gridArea.columnCount;
     gridArea.fontSize = gridArea.cellSize*0.6;
-    debug.log(scene, gridArea);
+    //debug.log(scene, gridArea);
 
     super(scene, gridArea.centerX, gridArea.centerY, gridArea.width, gridArea.height, gridArea.cellSize, gridArea.cellSize, 0xe0e0e0, 1, 0xaaaaaa, 1);
 
@@ -48,8 +48,8 @@ export class Grid extends Phaser.GameObjects.Grid {
   writeRemainder(x,y, number) {
     var newX = this.gridArea.left + (x+0.9)*this.gridArea.cellSize;
     var newY = this.gridArea.top + (y+0.2)*this.gridArea.cellSize;
-    debug.log(this.writtenText, x, y)
-    debug.log(this.writtenText[x])
+    // debug.log(this.writtenText, x, y)
+    // debug.log(this.writtenText[x])
     if(this.writtenText[x][y]) {
       this.writtenText[x][y].destroy();
     }
@@ -61,7 +61,7 @@ export class Grid extends Phaser.GameObjects.Grid {
     this.writtenText[x][y] = newText;
 
   }
-
+  // select the position in which will be written
   selectCell(x, y) {
     this.selectionX = x;
     this.selectionY = y;
@@ -70,24 +70,54 @@ export class Grid extends Phaser.GameObjects.Grid {
 
     var graphics = this.scene.add.graphics();
 
-    graphics.lineStyle(2, 0xFBAB09, 1.0);
+    graphics.lineStyle(3, 0x50c43c, 1.0);
     graphics.strokeRect(this.gridArea.left + x*this.gridArea.cellSize, this.gridArea.top + y*this.gridArea.cellSize, this.gridArea.cellSize, this.gridArea.cellSize);
     this.selection = graphics;
   }
 
-  clear() {
-    if(this.selection)
-      this.selection.destroy();
 
-    for (var x = 0; x < this.writtenText.length; x++) {
-      var column = this.writtenText[x]
-      for (var y = 0; y < column.length; y++) {
-        if(this.writtenText[x][y]) {
-          this.writtenText[x][y].destroy();
-          this.writtenText[x][y] = null;
+    clear() {
+      if(this.selection)
+        this.selection.destroy();
+
+      for (var x = 0; x < this.writtenText.length; x++) {
+        var column = this.writtenText[x]
+        for (var y = 0; y < column.length; y++) {
+          if(this.writtenText[x][y]) {
+            this.writtenText[x][y].destroy();
+            this.writtenText[x][y] = null;
+            }
+          }
         }
       }
-    }
-  }
+      //draw a line
+      drawLine(x1,y1,x2,y2) {
+        var graphics = this.scene.add.graphics();
+        graphics.lineStyle(3, 0x000000, 1.0);
+        var x3 = this.gridArea.left + (x1 + 1)*this.gridArea.cellSize;
+        var y3 = this.gridArea.top + y1*this.gridArea.cellSize - 3;
+        var x4 = this.gridArea.left + (x2 + 1)*this.gridArea.cellSize;
+        var y4 = this.gridArea.top + y2*this.gridArea.cellSize - 3;
+        graphics.lineBetween(x3,y3,x4,y4);
+      }
+      // mark objects
+      markField(x,y){
+        if(!this.markedFields) {
+          this.markedFields=[];
+        }
+        var textObject = this.writtenText[x][y];
+        textObject.setColor('#FF0000');
+        this.markedFields.push(textObject);
+      }
+      // delete the marks
+      demarkAllFields() {
+        for ( var textField of this.markedFields) {
+          if(textField)
+            textField.setColor('#000000')
+        }
+        this.markedFields=[];
+
+      }
+
 
 }

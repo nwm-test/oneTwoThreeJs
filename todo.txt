@@ -1,19 +1,42 @@
 TODO:
-  // mal aufgaben -> hochzahlen?
-  // phaser 3 -> onresize
-  // Mal Aufgaben
-  // Geteilt
-  // numberScene: this.gameData -> global speichern
+  // hilfsbutton -> fieldmarker auch bei anderen aufgaben
+  // button: nächste Aufgabe
+  // Multiplikation: select optimieren, '+' anzeigen
+  // Punkte für gelöste aufgaben
+  // Timescale
+  // Multiplikation xyz*xyzw zerlegung
+  // remainder bei bigNumbersMal hinzufügen
+  // Schätzaufgaben
+  // remainder bei bigNumbersMinus hinzufügen
+  // Einheiten und Dimensionen:  linie, quadrat, kugel skalieren
+  // vertikale Darstellung für bigNumbers: *, /
+  // phaser 3 -> onresize, canvas board und button einheitlich parametrisieren
+  //    https://stackoverflow.com/questions/48964723/phaser-3-change-dimensions-of-the-game-during-runtime
   // displaymanager: fontSize anpassen
-  // board: showInfo erweitern
-  // level auswahl
   // inputManager aufbauen
-  // vertikale darstellung
   // unittest
   // UML
 
 DONE:
+  // Multiplikation einstellig*xyz zerlegung
+  // problemManager: komplexe Probleme mit subProblemen
+  // Linie unter der Summe ziehen, & =
+  // vertikale Darstellung für bigNumbers: plus, minus
+  // level erst erhöhen, wenn x mal hintereinander richtig
+  // numberButton für Eingabe: größe anpassen
+  // neue Scenes: bigNumbers, smallNumbers, menu
+  // board: showInfo erweitern
+  // problemScene: gameData -> global speichern
+  // Schwierigkeit erhöhen:
+  //   problemManager -> new var difficulty
+  //   playerManager -> function: increaseDifficulty
+  //   displayManager -> callback: onProblemSolvedCallback
+  //   problemScene calls playerManager -> onProblemSolved
+  // mal aufgaben -> hochzahlen?
+  // Spieler wechseln button
   // Minus Aufgaben
+  // Mal Aufgaben
+  // Geteilt
   // device window anpassen
   // displaymanager: var w = window.outerWidth;
                    var h = window.outerHeight;
@@ -25,4 +48,4 @@ DONE:
                utils:   managing logic
   // Eingabe Fenster anpassen
   // Spieler anmelden
-  // console.log class(debug,js)
+  // console.log class(debug.js)
