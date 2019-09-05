@@ -79,7 +79,10 @@ export class Grid extends Phaser.GameObjects.Grid {
     clear() {
       if(this.selection)
         this.selection.destroy();
-
+        if(this.drawnLines)
+          for (var line of this.drawnLines) {
+              line.destroy();
+          }
       for (var x = 0; x < this.writtenText.length; x++) {
         var column = this.writtenText[x]
         for (var y = 0; y < column.length; y++) {
@@ -90,8 +93,11 @@ export class Grid extends Phaser.GameObjects.Grid {
           }
         }
       }
-      //draw a line
+      // draw a line
       drawLine(x1,y1,x2,y2) {
+        if(!this.drawnLines) {
+          this.drawnLines = [];
+        }
         var graphics = this.scene.add.graphics();
         graphics.lineStyle(3, 0x000000, 1.0);
         var x3 = this.gridArea.left + (x1 + 1)*this.gridArea.cellSize;
@@ -99,7 +105,10 @@ export class Grid extends Phaser.GameObjects.Grid {
         var x4 = this.gridArea.left + (x2 + 1)*this.gridArea.cellSize;
         var y4 = this.gridArea.top + y2*this.gridArea.cellSize - 3;
         graphics.lineBetween(x3,y3,x4,y4);
+        this.drawnLines.push(graphics);
+
       }
+
       // mark objects
       markField(x,y){
         if(!this.markedFields) {
@@ -111,6 +120,9 @@ export class Grid extends Phaser.GameObjects.Grid {
       }
       // delete the marks
       demarkAllFields() {
+        if(!this.markedFields) {
+          this.markedFields=[];
+        }
         for ( var textField of this.markedFields) {
           if(textField)
             textField.setColor('#000000')

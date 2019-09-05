@@ -185,4 +185,59 @@ export class ProblemManager {
 
     return problem;
   }
+  generateProblemBigNumbersDivide(difficulty) {
+    var minValue = 10;
+    var maxValue = 60;
+    if (difficulty > 0) {
+      minValue = difficulty * 1;
+      maxValue = difficulty* 6;
+    }
+    var problem = {};
+    problem.number1 = Math.floor(Math.random() * maxValue) + minValue;
+    problem.number2 = Math.floor(Math.random() * maxValue) + minValue;
+    problem.number1 *= problem.number2;
+
+    var numberToString = (problem.number1).toString();
+    var numberLength = (problem.number1).toString().length;
+    problem.operator = '/';
+    problem.subProblems = [];
+    problem.subProblemIndex = 0;
+    problem.result = problem.number1 / problem.number2;
+    var allNumberLength = (problem.result + '').length + problem.number1.length + problem.number2.length;
+    problem.initialText = problem.number1 + problem.operator + problem.number2;
+
+    for (var i=numberLength, j=allNumberLength; i >=0; i--, j--) {
+      var lengthNumber2 = (problem.number2 + problem.operator).length
+      var subProblem = {
+        number1: problem.number1,
+        number2: parseInt(numberToString[i]),
+        operator: '/',
+        markedFields: [
+          { x: 0-1, y: 0},
+          { x: -lengthNumber2, y: 0},
+        ],
+        selectField: { x: 0-j, y: 1+j}
+      }
+      subProblem.result = subProblem.number1 * subProblem.number2;
+
+      problem.subProblems.push(subProblem);
+
+    }
+
+    var subProblem = {
+      number1: problem.number1,
+      number2: problem.number2,
+      operator: '*',
+      markedFields: [
+      ],
+      selectField: { x: 0, y: 1+numberLength},
+      drawLine: {x1: -(problem.result+ '').length, y1: 1+numberLength, x2:0 , y2: 1+numberLength}
+    }
+    subProblem.result = subProblem.number1 * subProblem.number2;
+
+    problem.subProblems.push(subProblem);
+
+    return problem;
+
+  }
 }

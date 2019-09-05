@@ -18,7 +18,8 @@ TODO:
   // UML
 
 DONE:
-  // Multiplikation einstellig*xyz zerlegung
+  // Linie wieder löschen
+  // Multiplikation x*xyz: Zerlegung
   // problemManager: komplexe Probleme mit subProblemen
   // Linie unter der Summe ziehen, & =
   // vertikale Darstellung für bigNumbers: plus, minus

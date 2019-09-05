@@ -69,12 +69,15 @@ export class DisplayManager {
           // wright remainder on plus problem
           if (problem.operator == '+') {
             var remainder = Math.floor(((problem.number1% Math.pow(10, this.cursorIndex+1))+(problem.number2% Math.pow(10, this.cursorIndex+1)))/Math.pow(10, this.cursorIndex+1))
-            if(remainder>0)
+            if(remainder>0) {
               this.board.grid.writeRemainder(this.board.grid.selectionX, this.board.grid.selectionY, remainder);
-            else
+            }
+            else {
               this.board.grid.writeRemainder(this.board.grid.selectionX, this.board.grid.selectionY, " ");
+            }
           }
           this.cursorIndex++;
+          // divide big number multiplication in subProblems
         } else {
           this.board.grid.demarkAllFields();
           if(this.problem.subProblems && this.problem.subProblems.length-1 > this.problem.subProblemIndex) {
@@ -94,10 +97,13 @@ export class DisplayManager {
             this.board.showInfo('richtig! weiter so', '#0f0');
             this.scene.time.addEvent({
                 delay: 700,                // ms
-                callback: this.onProblemSolvedCallback,
+                callback: () => {this.board.grid.clear(),
+                                 this.onProblemSolvedCallback.apply(this.scene)},
                 //args: [],
                 callbackScope: this.scene,
             });
+
+
           }
         }
       } else {
@@ -144,6 +150,23 @@ export class DisplayManager {
             callbackScope: this.scene
         });
         break;
+        case 'bigNumbersDivide':
+          this.board.grid.writeAtCellRightToLeft(12, 1, problem.initialText);
+          this.board.grid.drawLine(12-problem.initialText.length,2,12,2);
+
+          var subProblem = problem.subProblems[0];
+
+          this.scene.time.addEvent({
+              delay: 700,                // ms
+              callback: () => {
+                for (var offset of subProblem.markedFields) {
+                  this.board.grid.markField(12+offset.x,1+offset.y);
+                }
+                this.board.grid.selectCell(12+subProblem.selectField.x,1+subProblem.selectField.y);
+              },
+              callbackScope: this.scene
+          });
+          break;
       default:
         this.board.grid.writeAtCellRightToLeft(12, 1, problem.initialText);
         this.board.grid.selectCell(12, 1);
