@@ -32,6 +32,7 @@ export class PlayerScene extends Phaser.Scene {
     }, () => this.testScenes());
 
 
+
   }
   // create new user
   createNewUser() {
@@ -53,6 +54,9 @@ export class PlayerScene extends Phaser.Scene {
   // testing mode
   testScenes() {
     gameData.playerManager.addPlayer('guest');
-    this.scene.start(SCENES.BIG_NUMBERS);
-  }
+    this.scene.start(SCENES.MENU);
+    }
+
+
+
 }

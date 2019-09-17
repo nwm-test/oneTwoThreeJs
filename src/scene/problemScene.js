@@ -25,7 +25,14 @@ export class ProblemScene extends Phaser.Scene {
     gameData.playerManager.changeDifficulty(1);
     gameData.playerManager.getPlayer().solvedProblems++ ;
     var problem = this.problemManager.generateProblem(gameData.problemType, gameData.playerManager.getPlayer().level);
+    // check if last problem was the same
+    while(this.lastProblem && problem.initialText == this.lastProblem.initialText){
+      var problem = this.problemManager.generateProblem(gameData.problemType, gameData.playerManager.getPlayer().level);
+    }
     this.displayManager.showProblem(problem);
+
+    this.lastProblem = problem;
+
 
   }
   onProblemUnsolved() {

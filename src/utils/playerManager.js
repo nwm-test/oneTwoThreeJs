@@ -15,7 +15,7 @@ export class PlayerManager {
     if (newName !=''){
       player.name = newName;
     }
-    this.players.push(player);
+    this.players.unshift(player);
   }
   // save difficulty of the problem
   changeDifficulty(x){

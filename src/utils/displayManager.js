@@ -18,6 +18,8 @@ export class DisplayManager {
     this.board.showInfo('Viel Glück!!', '#f80');
     this.onProblemSolvedCallback = onProblemSolvedCallback;
     this.onProblemUnsolvedCallback = onProblemUnsolvedCallback;
+
+
   }
 
     // create button to return to startScene
@@ -49,6 +51,7 @@ export class DisplayManager {
 
     // number == user input: [0,...,9]
     onButtonPressed(number) {
+      var lastCell = this.board.grid.gridArea.columnCount - 2;
       var problem = this.problem;
       // handle different problem types
       while (problem.subProblems) {
@@ -66,7 +69,7 @@ export class DisplayManager {
         // right answer, but the number has more digits
         if(newInput != problem.result) {
           this.board.grid.selectCell(this.board.grid.selectionX - 1, this.board.grid.selectionY);
-          // wright remainder on plus problem
+          // write remainder on plus problem
           if (problem.operator == '+') {
             var remainder = Math.floor(((problem.number1% Math.pow(10, this.cursorIndex+1))+(problem.number2% Math.pow(10, this.cursorIndex+1)))/Math.pow(10, this.cursorIndex+1))
             if(remainder>0) {
@@ -86,11 +89,12 @@ export class DisplayManager {
             this.userInput = 0;
             var subProblem = this.problem.subProblems[this.problem.subProblemIndex];
             for (var offset of subProblem.markedFields) {
-              this.board.grid.markField(12+offset.x,1+offset.y);
+              this.board.grid.markField(lastCell+offset.x, offset.y);
             }
-            this.board.grid.selectCell(12+subProblem.selectField.x,1+subProblem.selectField.y);
+            this.board.grid.selectCell(lastCell+subProblem.selectField.x, subProblem.selectField.y);
             if (subProblem.drawLine) {
-              this.board.grid.drawLine(12+subProblem.drawLine.x1, 1+subProblem.drawLine.y1, 12+subProblem.drawLine.x2, 1+subProblem.drawLine.y2);
+              this.board.grid.drawLine(lastCell+subProblem.drawLine.x1, 1+subProblem.drawLine.y1,
+                                       lastCell+subProblem.drawLine.x2, 1+subProblem.drawLine.y2);
             }
           } else {
             // right answer -> next problem
@@ -124,52 +128,51 @@ export class DisplayManager {
   showProblem(problem) {
     this.board.grid.clear();
     this.showScore();
+    var lastCell = (this.board.grid.gridArea.columnCount - 2);
     switch(gameData.problemType){
       case 'bigNumbersMinus':
       case 'bigNumbersPlus':
-        this.board.grid.writeAtCellRightToLeft(12, 1, problem.number1 + '');
-        this.board.grid.writeAtCellRightToLeft(12, 2, problem.operator + problem.number2);
-        var length = Math.max((problem.result + '').length, (problem.number2 + '').length);
-        this.board.grid.drawLine(12-length,3,12,3);
-        this.board.grid.selectCell(12, 3);
-        break;
+      this.board.grid.writeAtCellRightToLeft(12, 1, problem.number1 + '');
+      this.board.grid.writeAtCellRightToLeft(12, 2, problem.operator + problem.number2);
+      var length = Math.max((problem.result + '').length, (problem.number2 + '').length);
+      this.board.grid.drawLine(12-length,3,12,3);
+      this.board.grid.selectCell(12, 3);
+      break;
       case 'bigNumbersMultiply':
-        this.board.grid.writeAtCellRightToLeft(12, 1, problem.initialText);
-        this.board.grid.drawLine(12-problem.initialText.length,2,12,2);
-
+        this.board.grid.writeAtCellRightToLeft(lastCell, 1, problem.initialText);
+        this.board.grid.drawLine(lastCell - problem.initialText.length,2,lastCell,2);
         var subProblem = problem.subProblems[0];
 
         this.scene.time.addEvent({
             delay: 700,                // ms
             callback: () => {
               for (var offset of subProblem.markedFields) {
-                this.board.grid.markField(12+offset.x,1+offset.y);
+                this.board.grid.markField(lastCell + offset.x, 1 + offset.y);
               }
-              this.board.grid.selectCell(12+subProblem.selectField.x,1+subProblem.selectField.y);
+              this.board.grid.selectCell(lastCell + subProblem.selectField.x, subProblem.selectField.y);
             },
             callbackScope: this.scene
         });
         break;
         case 'bigNumbersDivide':
-          this.board.grid.writeAtCellRightToLeft(12, 1, problem.initialText);
-          this.board.grid.drawLine(12-problem.initialText.length,2,12,2);
-
+        console.log('last cell number to write in: ', lastCell, this.board.grid.gridArea.columnCount);
+          this.board.grid.writeAtCellRightToLeft(lastCell, 1, problem.initialText);
           var subProblem = problem.subProblems[0];
 
           this.scene.time.addEvent({
               delay: 700,                // ms
               callback: () => {
                 for (var offset of subProblem.markedFields) {
-                  this.board.grid.markField(12+offset.x,1+offset.y);
+                  this.board.grid.markField(lastCell + offset.x, offset.y);
                 }
-                this.board.grid.selectCell(12+subProblem.selectField.x,1+subProblem.selectField.y);
+                this.board.grid.selectCell(lastCell+ subProblem.selectField.x, subProblem.selectField.y);
               },
               callbackScope: this.scene
           });
           break;
       default:
-        this.board.grid.writeAtCellRightToLeft(12, 1, problem.initialText);
-        this.board.grid.selectCell(12, 1);
+        this.board.grid.writeAtCellRightToLeft(lastCell, 1, problem.initialText);
+        this.board.grid.selectCell(lastCell, 1);
     }
 
     this.problem = problem;

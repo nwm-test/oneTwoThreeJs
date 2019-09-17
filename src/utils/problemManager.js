@@ -23,11 +23,59 @@ export class ProblemManager {
         return this.generateProblemBigNumbersMinus(difficulty);
       case 'bigNumbersMultiply':
         return this.generateProblemBigNumbersMultiply(difficulty);
+      case 'bigNumbersDivide':
+        return this.generateProblemBigNumbersDivide(difficulty);
       default:
         console.log('error, no problemType set', problemType);
         return this.generateProblemPlus(difficulty);
     }
   }
+  generateDivisionPair(x,difficulty) {
+    var minNumberToDivide = 2;
+    var maxNumberToDivide = 3;
+    var minDivisionNumber = 1;
+    var maxDivisionNumber = 2;
+
+    if (!difficulty){
+      difficulty = 1;
+    }
+      switch (x) {
+        case (1):
+        minNumberToDivide = Math.floor(Math.log((15*difficulty+1)));
+        maxNumberToDivide = Math.floor(Math.log(20*difficulty^2/2+1));
+        minDivisionNumber = Math.floor(Math.log((15*difficulty+1)));
+        maxDivisionNumber = Math.floor(Math.log((25*difficulty+2)));
+        console.log('minNumberToDivide: ', minNumberToDivide,
+                    'maxNumberToDivide: ', maxNumberToDivide,
+                    'minDivisionNumber: ', minDivisionNumber,
+                    'maxDivisionNumber: ', maxDivisionNumber);
+          break;
+        case (2):
+          minNumberToDivide = Math.floor(10 + Math.log((15*difficulty+2)));
+          maxNumberToDivide = Math.floor(15 + Math.log(20*difficulty^2/2) + 1);
+          minDivisionNumber = Math.floor(1 + Math.log((15*difficulty+2)));
+          maxDivisionNumber = Math.floor(2 + Math.log((15*difficulty+2)));
+          console.log('minNumberToDivide: ', minNumberToDivide,
+                      'maxNumberToDivide: ', maxNumberToDivide,
+                      'minDivisionNumber: ', minDivisionNumber,
+                      'maxDivisionNumber: ', maxDivisionNumber);
+          break;
+        default:
+        var minNumberToDivide = 2;
+        var maxNumberToDivide = 3;
+        var minDivisionNumber = 1;
+        var maxDivisionNumber = 2;
+      }
+    var divisionNumber = Math.floor(Math.random() * maxDivisionNumber) + minDivisionNumber;
+    var numberToDivide = divisionNumber * (Math.floor(Math.random() * maxNumberToDivide) + minNumberToDivide);
+    var divisionPair = {};
+    divisionPair.number1 = numberToDivide;
+    divisionPair.number2 = divisionNumber;
+    divisionPair.operater = ':';
+    divisionPair.result = numberToDivide / divisionNumber;
+  return divisionPair;
+}
+
   generateProblemPlus(difficulty) {
     var maxValue = 10;
     if (difficulty > 0) {
@@ -63,17 +111,12 @@ export class ProblemManager {
     return problem;
   }
   generateProblemMultiply(difficulty){
-    if (difficulty == 0) {
-      var maxValue = 20;
-    }
-    else {
-      var maxValue = difficulty*10;
-    }
     var problem = {};
+    var divisionPair = this.generateDivisionPair(1, difficulty);
     var maxValue = 10;
     // var minValue = 1;
-    problem.number1 = Math.floor(Math.random() * maxValue);
-    problem.number2 = Math.floor(Math.random() * maxValue);
+    problem.number1 = divisionPair.result;
+    problem.number2 = divisionPair.number2;
     problem.operator = '*';
     problem.result = problem.number1 * problem.number2;
     // transfrom numbers in whitespace
@@ -81,20 +124,18 @@ export class ProblemManager {
     problem.initialText = problem.number1 + problem.operator + problem.number2 + '=' + whiteSpaceResult;
     return problem;
   }
-  generateProblemDivide(difficulty){
-    var minValue = 1;
-    var maxValue = 6;
-    if (difficulty > 0) {
-      minValue = difficulty * 1;
-      maxValue = difficulty* 6;
-    }
-    var problem = {};
-    problem.number1 = Math.floor(Math.random() * maxValue) + minValue;
-    problem.number2 = Math.floor(Math.random() * maxValue) + minValue;
-    problem.number1 *= problem.number2;
-    problem.operator = '/';
 
+  generateProblemDivide(difficulty){
+    var problem = {};
+    var divisionPair =  this.generateDivisionPair(1,difficulty);
+    while(this.lastDivisionPair && this.lastDivisionPair.number1 ==  divisionPair.number1) {
+       divisionPair = this.generateDivisionPair(1,difficulty);
+    }
+    problem.number1 = divisionPair.number1;
+    problem.number2 = divisionPair.number2;
+    problem.operator = ':';
     problem.result = problem.number1 / problem.number2;
+    this.lastDivisionPair = divisionPair;
     // transfrom numbers in whitespace
     var whiteSpaceResult = ('' + problem.result).replace(/[0-9]/g, ' ');
     problem.initialText = problem.number1 + problem.operator + problem.number2 + '=' + whiteSpaceResult;
@@ -143,8 +184,8 @@ export class ProblemManager {
     var problem = {};
     problem.number1 = Math.floor(Math.random() * maxValue1);
     problem.number2 = Math.floor(Math.random() * maxValue2)+ minValue2;
-    var numberToString = (problem.number2).toString();
-    var numberLength = (problem.number2).toString().length;
+    var numberTwoString = (problem.number2).toString();
+    var number2Length = (problem.number2).toString().length;
     problem.operator = '*';
     problem.subProblems = [];
     problem.subProblemIndex = 0;
@@ -152,17 +193,17 @@ export class ProblemManager {
     problem.initialText = problem.number1 + problem.operator + problem.number2;
 
 
-    for (var i=numberLength-1, j=0; i >=0; i--, j++) {
-      var lengthNumber2 = (problem.number2 + problem.operator).length
+    for (var i=number2Length - 1, j=0; i>=0; i--, j++) {
+      var lengthToNumberOne = (problem.number2 + problem.operator).length
       var subProblem = {
         number1: problem.number1,
-        number2: parseInt(numberToString[i]),
+        number2: parseInt(numberTwoString[i]),
         operator: '*',
         markedFields: [
-          { x: 0-j, y: 0},
-          { x: -lengthNumber2, y: 0},
+          { x: 0 - j,           y: 0},
+          { x: - lengthToNumberOne, y: 0},
         ],
-        selectField: { x: 0-j, y: 1+j}
+        selectField: { x: 0-j, y: 2+j}
       }
       subProblem.result = subProblem.number1 * subProblem.number2;
 
@@ -176,68 +217,208 @@ export class ProblemManager {
       operator: '*',
       markedFields: [
       ],
-      selectField: { x: 0, y: 1+numberLength},
-      drawLine: {x1: -(problem.result+ '').length, y1: 1+numberLength, x2:0 , y2: 1+numberLength}
+      selectField: { x: 0, y: 2+number2Length},
+      drawLine: {x1: -(problem.result+ '').length, y1: 1+number2Length, x2:0 , y2: 1+number2Length}
     }
     subProblem.result = subProblem.number1 * subProblem.number2;
-
     problem.subProblems.push(subProblem);
-
     return problem;
   }
   generateProblemBigNumbersDivide(difficulty) {
-    var minValue = 10;
-    var maxValue = 60;
-    if (difficulty > 0) {
-      minValue = difficulty * 1;
-      maxValue = difficulty* 6;
+    // // problem1: xy/x
+    // var minValue1 = 5;
+    // var minValue2 = 1;
+    // var maxValue1 = 30;
+    // var maxValue2 = 9;
+    //
+    // if (difficulty = 0) {
+    //   var minValue1 = 3;
+    //   var maxValue1 = 9;
+    //   var minValue2 = 1;
+    //   var maxValue2 = 9;
+    // }
+      var problem ={};
+      var divisionPair = this.generateDivisionPair(2,difficulty);
+      problem.number1 = divisionPair.number1;
+      problem.number2 = divisionPair.number2;
+      problem.operator = ':';
+      problem.result = problem.number1 / problem.number2;
+      var whiteSpaceResult = ('' + problem.result).replace(/[0-9]/g, ' ');
+      problem.initialText = problem.number1 + problem.operator + problem.number2 + '=' + whiteSpaceResult;
+      problem.subProblems = [];
+      problem.subProblemIndex = 0;
+      var numberToDivide = problem.number1;
+      var problemLength = (problem.initialText + '').length;
+      var numberOneArray = problem.number1.toString();
+      var numberOneLength = numberOneArray.length;
+      var number2Length = (problem.number2 + '').length;
+      if (numberOneLength > 2 || problem.result >= 10)  {
+        numberToDivide = Math.floor(problem.number1/10);
+
+        }
+      var numberToDivideLength = (numberToDivide + '').length;
+      console.log('problem Text: ', problem.initialText, 'subProblem: ',  numberToDivide, numberToDivideLength);
+
+       var i= -problemLength +1;
+        // find write dividend and divide
+        var firstDivision = {
+          number1: numberToDivide,
+          number2: problem.number2,
+          operator: ':',
+          markedFields: [
+            {x: i, y:1},
+            {x: i + (problem.number1 + problem.operator).length , y:1} // mark number2
+          ],
+          selectField: {x: - (problem.result + '').length + 1, y:1} // select first digit of result
+        }
+        firstDivision.result = Math.floor(firstDivision.number1 / firstDivision.number2);
+        if (numberToDivideLength > 1) {
+          firstDivision.markedFields.push({x: i + 1, y: 1});
+        }
+        problem.subProblems.push(firstDivision);
+
+        // multiply with divisor and write result under first part of dividend
+        var firstMultiplication = {
+          number1: firstDivision.result,
+          number2: problem.number2,
+          operator: '*',
+          markedFields: [
+            {x: firstDivision.selectField.x, y: firstDivision.selectField.y},
+            {x: firstDivision.markedFields[1].x, y: firstDivision.markedFields[1].y} // mark number2
+          ],
+          selectField: {x: i, y: 2}
+        }
+        firstMultiplication.result = firstMultiplication.number1 * firstMultiplication.number2;
+        if(numberToDivideLength > 1) {
+          firstMultiplication.selectField = {x: i + 1, y: 2};
+        }
+        problem.subProblems.push(firstMultiplication);
+        // substitute
+        var firstSubtraction = {
+          number1: firstDivision.number1,
+          number2: firstMultiplication.result,
+          operator: '-',
+          markedFields: [
+            {x: firstDivision.markedFields[0].x ,     y: firstDivision.markedFields[0].y},
+            {x: firstDivision.markedFields[0].x ,     y: firstDivision.markedFields[0].y + 1},
+          ],
+          selectField: {x: firstMultiplication.selectField.x, y:  firstMultiplication.selectField.y + 1},
+        }
+        firstSubtraction.drawLine = { x1: firstSubtraction.markedFields[0].x - 1, y1: firstSubtraction.markedFields[0].y + 1,
+                                      x2: firstSubtraction.markedFields[0].x, y2: firstDivision.markedFields[0].y + 1};
+        if(firstSubtraction.result == 0) {
+          firstSubtraction.markedFields = [
+            {x: firstDivision.markedFields[0].x ,     y: firstDivision.markedFields[0].y},
+            {x: firstDivision.markedFields[0].x ,     y: firstDivision.markedFields[0].y + 1}
+          ];
+        }
+        if(numberToDivideLength > 1 || (firstMultiplication.result + '').length > 1) {
+          firstSubtraction.markedFields = [
+            {x: firstDivision.markedFields[0].x ,     y: firstDivision.markedFields[0].y},
+            {x: firstDivision.markedFields[0].x ,     y: firstDivision.markedFields[0].y + 1},
+            {x: firstDivision.markedFields[0].x + 1,  y: firstDivision.markedFields[0].y},
+            {x: firstDivision.markedFields[0].x + 1,  y: firstDivision.markedFields[0].y + 1}
+          ];
+          firstSubtraction.selectField = {x: firstSubtraction.markedFields[0].x + 1, y: firstSubtraction.markedFields[0].y + 2};
+          firstSubtraction.drawLine = { x1: firstSubtraction.markedFields[0].x - 1 , y1: firstSubtraction.markedFields[0].y + 1,
+                                        x2: firstSubtraction.markedFields[0].x + 1, y2: firstSubtraction.markedFields[0].y + 1}
+        }
+        firstSubtraction.result = firstSubtraction.number1 - firstSubtraction.number2;
+        problem.subProblems.push(firstSubtraction);
+
+        // write down next digit of divident
+        var firstWriteDown = {
+          number1: firstSubtraction.result,
+          number2: numberOneArray[(numberToDivideLength)],
+          operator: ':',
+          markedFields: [
+            // {x: firstDivision.markedFields[1].x, y: firstDivision.markedFields[1].y + 1}
+            {x: i + numberToDivideLength, y: 1},
+          ],
+          selectField: {x: firstSubtraction.selectField.x + 1, y: firstSubtraction.selectField.y},
+        }
+        var nextNumberToDivide = (firstWriteDown.number1 + '') + (firstWriteDown.number2 + '');
+        firstWriteDown.result = firstWriteDown.number2;
+        if(firstSubtraction.result == 0){
+          nextNumberToDivide = firstWriteDown.result;
+        }
+        problem.subProblems.push(firstWriteDown);
+
+        // divide next part of divident
+        var secondDivision = {
+          number1: nextNumberToDivide,
+          number2: problem.number2,
+          operator: ':',
+          markedFields: [
+            {x: firstWriteDown.selectField.x - 1, y: firstWriteDown.selectField.y},
+            {x: firstWriteDown.selectField.x , y: firstWriteDown.selectField.y},
+            {x: firstDivision.markedFields[1].x, y: firstDivision.markedFields[1].y},
+            {x: firstWriteDown.selectField.x , y: firstWriteDown.selectField.y},
+            {x: firstDivision.markedFields[1].x, y: firstDivision.markedFields[1].y}
+            ],
+          selectField: {x: - (problem.result + '').length + 2, y:1}
+        }
+        if(firstSubtraction.result == 0) {
+          secondDivision.markedFields = [
+            {x: firstWriteDown.selectField.x , y: firstWriteDown.selectField.y},
+            {x: firstDivision.markedFields[1].x, y: firstDivision.markedFields[1].y},
+            {x: firstWriteDown.selectField.x , y: firstWriteDown.selectField.y},
+            {x: firstDivision.markedFields[1].x, y: firstDivision.markedFields[1].y}
+          ];
+        }
+        secondDivision.result = secondDivision.number1 / secondDivision.number2;
+        problem.subProblems.push(secondDivision);
+
+        var secondMultiplication = {
+          number1: secondDivision.result,
+          number2: problem.number2,
+          operator: '*',
+          markedFields: [
+            {x: firstDivision.selectField.x + 1, y: firstDivision.selectField.y},
+            {x: firstDivision.markedFields[1].x, y: firstDivision.markedFields[1].y}
+          ],
+          selectField: {x: firstMultiplication.selectField.x + 1, y: firstMultiplication.selectField.y + 2}
+        }
+        secondMultiplication.result = secondMultiplication.number1 * secondMultiplication.number2;
+
+        problem.subProblems.push(secondMultiplication);
+
+        var secondSubtraction = {
+          number1: secondDivision.number1,
+          number2: secondMultiplication.result,
+          operator: '-',
+          markedFields: [
+            {x: secondMultiplication.selectField.x,       y: secondMultiplication.selectField.y - 1 },
+            {x: secondMultiplication.selectField.x - 1,   y: secondMultiplication.selectField.y - 1},
+            {x: secondMultiplication.selectField.x,       y: secondMultiplication.selectField.y},
+            {x: secondMultiplication.selectField.x - 1,   y: secondMultiplication.selectField.y}
+          ],
+          selectField: { x: firstWriteDown.selectField.x, y: firstWriteDown.selectField.y + 2},
+          drawLine: {x1: secondMultiplication.selectField.x - 2, y1: secondMultiplication.selectField.y,
+                     x2: secondMultiplication.selectField.x,     y2: secondMultiplication.selectField.y}
+        }
+        console.log('markedFields: ', secondSubtraction.markedFields);
+        if(firstSubtraction.result == 0) {
+          secondSubtraction.markedFields = [
+            {x: secondMultiplication.selectField.x,       y: secondMultiplication.selectField.y},
+            {x: secondMultiplication.selectField.x,       y: secondMultiplication.selectField.y - 1 },
+          ];
+          console.log('markedFields: ', secondSubtraction.markedFields);
+
+          secondSubtraction.drawLine = {x1: secondMultiplication.selectField.x - 1, y1: secondMultiplication.selectField.y,
+                                        x2: secondMultiplication.selectField.x,     y2: secondMultiplication.selectField.y};
+        }
+        if (nextNumberToDivide >= 10 || (secondMultiplication.result + '').length > 1 ) {
+          secondSubtraction.selectField = {x: firstSubtraction.selectField.x + 1, y: firstSubtraction.selectField.y + 2};
+          secondSubtraction.drawLine = {x1: secondMultiplication.selectField.x - 2, y1: secondMultiplication.selectField.y,
+                                        x2: secondMultiplication.selectField.x,     y2: secondMultiplication.selectField.y};;
+          console.log("nextNumberToDivide: ", nextNumberToDivide, 'drawLine: ', secondSubtraction.drawLine);
+          // {x1: secondSubtraction.markedFields[0].x - 1, y1: firstSubtraction.drawLine.y1 + 2,
+          //  x2:  secondSubtraction.markedFields[0].x - 1, y2: firstSubtraction.drawLine.y2 + 2};
+        }
+        secondSubtraction.result = secondSubtraction.number1 - secondSubtraction.number2;
+        problem.subProblems.push(secondSubtraction);
+      return problem;
+
     }
-    var problem = {};
-    problem.number1 = Math.floor(Math.random() * maxValue) + minValue;
-    problem.number2 = Math.floor(Math.random() * maxValue) + minValue;
-    problem.number1 *= problem.number2;
-
-    var numberToString = (problem.number1).toString();
-    var numberLength = (problem.number1).toString().length;
-    problem.operator = '/';
-    problem.subProblems = [];
-    problem.subProblemIndex = 0;
-    problem.result = problem.number1 / problem.number2;
-    var allNumberLength = (problem.result + '').length + problem.number1.length + problem.number2.length;
-    problem.initialText = problem.number1 + problem.operator + problem.number2;
-
-    for (var i=numberLength, j=allNumberLength; i >=0; i--, j--) {
-      var lengthNumber2 = (problem.number2 + problem.operator).length
-      var subProblem = {
-        number1: problem.number1,
-        number2: parseInt(numberToString[i]),
-        operator: '/',
-        markedFields: [
-          { x: 0-1, y: 0},
-          { x: -lengthNumber2, y: 0},
-        ],
-        selectField: { x: 0-j, y: 1+j}
-      }
-      subProblem.result = subProblem.number1 * subProblem.number2;
-
-      problem.subProblems.push(subProblem);
-
-    }
-
-    var subProblem = {
-      number1: problem.number1,
-      number2: problem.number2,
-      operator: '*',
-      markedFields: [
-      ],
-      selectField: { x: 0, y: 1+numberLength},
-      drawLine: {x1: -(problem.result+ '').length, y1: 1+numberLength, x2:0 , y2: 1+numberLength}
-    }
-    subProblem.result = subProblem.number1 * subProblem.number2;
-
-    problem.subProblems.push(subProblem);
-
-    return problem;
-
   }
-}

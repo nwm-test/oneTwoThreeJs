@@ -33,6 +33,7 @@ export class MenuScene extends Phaser.Scene {
     var bigNumbersButton = new Buttons(this, width*0.32, height*0.65, 'DIE GROßEN ZAHLEN', {
       fill: '#fff'
     }, () => this.scene.start(SCENES.BIG_NUMBERS));
+  
 
   }
 

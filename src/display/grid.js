@@ -18,7 +18,7 @@ export class Grid extends Phaser.GameObjects.Grid {
 
     scene.add.existing(this);
   }
-  // Schreibe in ein Kästchen
+  // Write into a cell
   writeInCell(x, y, character) {
     var newX = this.gridArea.left + (x+0.5)*this.gridArea.cellSize;
     var newY = this.gridArea.top + (y+0.5)*this.gridArea.cellSize;
@@ -32,7 +32,7 @@ export class Grid extends Phaser.GameObjects.Grid {
     newText.setPosition(newX, newY);
     this.writtenText[x][y] = newText;
   }
-  // Schreibe in mehrere Kästchen, Startpos: x,y
+  // wrigth into a number of cells, startpos: x,y
   writeAtCell(x, y, text) {
     for(var i=0;i<text.length;i++) {
       this.writeInCell(x+i, y, text.charAt(i));
@@ -93,6 +93,20 @@ export class Grid extends Phaser.GameObjects.Grid {
           }
         }
       }
+      // draw Operator
+      drawOperator(){
+        if (!this.drawnOperater){
+          this.drawnOperater = [];
+        }
+        var graphics = this.scene.add.graphics();
+        graphics.lineStyle(2, 0x000000, 1.0);
+        var x3 = this.gridArea.left + (x1 + 1)*this.gridArea.cellSize;
+        var y3 = this.gridArea.top + y1*this.gridArea.cellSize - 3;
+        var x4 = this.gridArea.left + (x2 + 1)*this.gridArea.cellSize;
+        var y4 = this.gridArea.top + y2*this.gridArea.cellSize - 3;
+        graphics.lineBetween(x3,y3,x4,y4);
+        this.drawnOperater.push(graphics);
+      }
       // draw a line
       drawLine(x1,y1,x2,y2) {
         if(!this.drawnLines) {
@@ -115,13 +129,16 @@ export class Grid extends Phaser.GameObjects.Grid {
           this.markedFields=[];
         }
         var textObject = this.writtenText[x][y];
+        if(!textObject){
+          return;
+        }
         textObject.setColor('#FF0000');
         this.markedFields.push(textObject);
       }
       // delete the marks
       demarkAllFields() {
         if(!this.markedFields) {
-          this.markedFields=[];
+          return;
         }
         for ( var textField of this.markedFields) {
           if(textField)

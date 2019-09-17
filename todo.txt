@@ -1,4 +1,8 @@
 TODO:
+  // bigNumbers multiply: bug beu 2-ter zahl zeile beheben
+  // show info ausblenden bei neuer Aufgabe
+  // wenn difficulty == 30: showScreenGameOver
+  // ScenenNamen: kleine 1x1, Rechnen mit großen Zahlen
   // hilfsbutton -> fieldmarker auch bei anderen aufgaben
   // button: nächste Aufgabe
   // Multiplikation: select optimieren, '+' anzeigen
@@ -18,6 +22,9 @@ TODO:
   // UML
 
 DONE:
+  // große Zahlen: Divide: markieren, selektieren subProblems übergeben
+  // kleine 1x1 divide: nur bis 9x9
+  // wiederholte aufgaben nicht zulassen
   // Linie wieder löschen
   // Multiplikation x*xyz: Zerlegung
   // problemManager: komplexe Probleme mit subProblemen
