@@ -27,7 +27,7 @@ export class PlayerScene extends Phaser.Scene {
       fill: '#fff'
     }, () => this.createNewUser());
     // test scene
-    var testScene = new Buttons(this, width*0.32, height*0.67, 'BigNumbers', {
+    var testScene = new Buttons(this, width*0.32, height*0.67, 'MENU SCENE', {
       fill: '#fff'
     }, () => this.testScenes());
 

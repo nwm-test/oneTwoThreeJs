@@ -1,4 +1,5 @@
 TODO:
+  // display an Aufgabe anpassen
   // bigNumbers multiply: bug beu 2-ter zahl zeile beheben
   // show info ausblenden bei neuer Aufgabe
   // wenn difficulty == 30: showScreenGameOver

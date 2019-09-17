@@ -25,15 +25,15 @@ export class MenuScene extends Phaser.Scene {
       this.scene.start(SCENES.PLAYER)
     });
     // button to access easy problems
-    var numbersButton = new Buttons(this, width*0.32, height*0.60, 'DIE ZAHLEN', {
+    var numbersButton = new Buttons(this, width*0.32, height*0.60, 'DAS KLEINE 1x1', {
       fill: '#fff'
     }, () => this.scene.start(SCENES.SMALL_NUMBERS));
 
     // button to access advanced problems
-    var bigNumbersButton = new Buttons(this, width*0.32, height*0.65, 'DIE GROßEN ZAHLEN', {
+    var bigNumbersButton = new Buttons(this, width*0.32, height*0.65, 'RECHNEN MIT GROßEN ZAHLEN', {
       fill: '#fff'
     }, () => this.scene.start(SCENES.BIG_NUMBERS));
-  
+
 
   }
 
