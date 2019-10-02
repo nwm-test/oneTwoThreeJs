@@ -16,7 +16,7 @@ export class ProblemScene extends Phaser.Scene {
     // use problemManager to generate and displayManager to show problems
     this.displayManager = new DisplayManager(this, this.onProblemSolved, this.onProblemUnsolved);
     this.problemManager = new ProblemManager();
-    this.problemManager.generateProblems(40, 1, gameData.problemType, gameData.playerManager.getPlayer().level);
+    this.problemManager.generateProblems(40, 10, gameData.problemType, gameData.playerManager.getPlayer().level);
     var problem = this.problemManager.getNextProblem(gameData.playerManager.getPlayer().level);
     this.displayManager.showProblem(problem);
   }

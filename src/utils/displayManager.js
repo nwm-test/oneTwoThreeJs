@@ -34,7 +34,7 @@ export class DisplayManager {
       // listen for key events
       this.scene.input.keyboard.on('keydown', (event)=> this.onKeyDown(event));
       for (var i = 0; i < 10; i++) {
-        this.createButton(this.board.marginLeft+i*this.board.boardWidth /10, this.board.marginTop+this.board.boardHeight+10, i);
+        this.createButton(this.board.marginLeft+i*this.board.boardWidth /10, this.board.marginTop+this.board.boardHeight*1.8+10, i);
       }
 
     }
@@ -46,7 +46,7 @@ export class DisplayManager {
 
     }
     createButton(x, y, number) {
-      this.buttons[number] = new Buttons(this.scene, x, y, number, { fill: '#fff', fontSize: 12 }, () => this.onButtonPressed(number));
+      this.buttons[number] = new Buttons(this.scene, x, y, number, { fill: '#fff', fontSize: this.board.boardWidth* 0.08 }, () => this.onButtonPressed(number));
     }
 
     // number == user input: [0,...,9]
@@ -126,7 +126,6 @@ export class DisplayManager {
 
   showProblem(problem) {
     this.gridArea = this.board.buildGrid(gameData.cellCountX + 1,gameData.cellCountY + 1); //problem.gridAreaWidth, problem.gridAreaHeight);
-
     this.showScore();
     var lastCell = (this.board.grid.gridArea.columnCount - 2);
     switch(gameData.problemType){

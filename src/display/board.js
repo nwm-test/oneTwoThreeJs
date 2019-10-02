@@ -14,23 +14,20 @@ export class Board {
     if(this.board){
       this.board.destroy();
     }
-
     // define board parameter
-    this.boardWidth = this.canvasWidth * 2 / 3;
-    this.boardHeight = this.canvasHeight * 2 / 3;
+    this.boardWidth = this.canvasWidth * 0.3;
+    this.boardHeight = this.canvasHeight * 0.3;
     this.marginLeft = (this.canvasWidth - this.boardWidth) / 2;
     this.marginTop = (this.canvasHeight - this.boardHeight) / 2;
-
-
 
     // draw board
     var board = this.scene.add.graphics()
     board.lineStyle(5, 0xFF00FF, 1.0);
     board.fillStyle(0xFFFFFF, 1.0);
     board.fillRect(this.marginLeft, this.marginTop,
-                   this.boardWidth, this.boardHeight);
+                   this.boardWidth, this.boardHeight*1.8);
     board.strokeRect(this.marginLeft,this.marginTop,
-                     this.boardWidth, this.boardHeight);
+                     this.boardWidth, this.boardHeight*1.8);
 
     this.board = board;
   }

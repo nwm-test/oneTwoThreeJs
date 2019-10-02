@@ -1,5 +1,6 @@
 TODO:
-  // bigNumberMulpitply: selectCell
+  // Buttongröße anpassen
+  // bigNumberMulpitply: selectCell in subProblem
   // Zahlen Buttons gleich groß mit Zelle
   // display an Aufgabe anpassen
   // bigNumbers multiply: bug beu 2-ter zahl zeile beheben
@@ -23,6 +24,7 @@ TODO:
   // UML
 
 DONE:
+  // grid dynamisch
   // große Zahlen: Divide: markieren, selektieren subProblems übergeben
   // vertikale Darstellung für bigNumbers: *, /
   // Multiplikation: select optimieren, '+' anzeigen
