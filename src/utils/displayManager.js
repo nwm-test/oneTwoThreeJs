@@ -34,7 +34,7 @@ export class DisplayManager {
       // listen for key events
       this.scene.input.keyboard.on('keydown', (event)=> this.onKeyDown(event));
       for (var i = 0; i < 10; i++) {
-        this.createButton(this.board.grid.gridArea.left+i*this.board.grid.gridArea.cellSize, this.board.grid.gridArea.height*1.32, i);
+        this.createButton(this.board.marginLeft+i*this.board.boardWidth /10, this.board.marginTop+this.board.boardHeight+10, i);
       }
 
     }
@@ -46,16 +46,17 @@ export class DisplayManager {
 
     }
     createButton(x, y, number) {
-      this.buttons[number] = new Buttons(this.scene, x, y, number, { fill: '#fff', fontSize: this.board.grid.gridArea.cellSize }, () => this.onButtonPressed(number));
+      this.buttons[number] = new Buttons(this.scene, x, y, number, { fill: '#fff', fontSize: 12 }, () => this.onButtonPressed(number));
     }
 
     // number == user input: [0,...,9]
     onButtonPressed(number) {
       var lastCell = this.board.grid.gridArea.columnCount - 2;
       var problem = this.problem;
+      console.log(problem);
       // handle different problem types
       while (problem.subProblems) {
-        problem = this.problem.subProblems[this.problem.subProblemIndex]
+        problem = problem.subProblems[problem.subProblemIndex];
       }
       // calculate sum of all numbers of user input
       var newInput = this.userInput + number * Math.pow(10, this.cursorIndex);
@@ -106,8 +107,6 @@ export class DisplayManager {
                 //args: [],
                 callbackScope: this.scene,
             });
-
-
           }
         }
       } else {
@@ -126,17 +125,28 @@ export class DisplayManager {
     }
 
   showProblem(problem) {
-    this.board.grid.clear();
+    this.gridArea = this.board.buildGrid(gameData.cellCountX + 1,gameData.cellCountY + 1); //problem.gridAreaWidth, problem.gridAreaHeight);
+
     this.showScore();
     var lastCell = (this.board.grid.gridArea.columnCount - 2);
     switch(gameData.problemType){
       case 'bigNumbersMinus':
       case 'bigNumbersPlus':
-      this.board.grid.writeAtCellRightToLeft(12, 1, problem.number1 + '');
-      this.board.grid.writeAtCellRightToLeft(12, 2, problem.operator + problem.number2);
+      this.board.grid.writeAtCellRightToLeft(lastCell, 1, problem.number1 + '');
+      this.board.grid.writeAtCellRightToLeft(lastCell, 2, problem.operator + problem.number2);
       var length = Math.max((problem.result + '').length, (problem.number2 + '').length);
-      this.board.grid.drawLine(12-length,3,12,3);
-      this.board.grid.selectCell(12, 3);
+      this.board.grid.drawLine(lastCell-length,3,lastCell,3);
+      var subProblem = problem.subProblems[0];
+      this.scene.time.addEvent({
+          delay: 700,                // ms
+          callback: () => {
+            for (var offset of subProblem.markedFields) {
+              this.board.grid.markField(lastCell + offset.x, offset.y);
+            }
+            this.board.grid.selectCell(lastCell+ subProblem.selectField.x, subProblem.selectField.y);
+          },
+          callbackScope: this.scene
+      });
       break;
       case 'bigNumbersMultiply':
         this.board.grid.writeAtCellRightToLeft(lastCell, 1, problem.initialText);
@@ -155,7 +165,8 @@ export class DisplayManager {
         });
         break;
         case 'bigNumbersDivide':
-        console.log('last cell number to write in: ', lastCell, this.board.grid.gridArea.columnCount);
+          lastCell = (this.board.grid.gridArea.columnCount - 2);
+          console.log('problem.initialText: ',(problem.initialText + ' ').length);
           this.board.grid.writeAtCellRightToLeft(lastCell, 1, problem.initialText);
           var subProblem = problem.subProblems[0];
 

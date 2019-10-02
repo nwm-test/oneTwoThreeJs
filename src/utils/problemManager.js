@@ -1,11 +1,40 @@
-import { Board } from '../display/board';
-import { Grid } from '../display/grid';
-
 // class to generate problem, will be called in "SCENES". Dependencies: playerManager.js, problemScene.js
 export class ProblemManager {
   constructor() {
 
 
+  }
+  generateProblems(problemCount, levelCount, problemType, initialDifficulty){
+    gameData.cellCountX = 0;
+    gameData.cellCountY = 0;
+
+    var problems = [];
+    for (var i = initialDifficulty; i < levelCount + initialDifficulty; i++) {
+      problems[i] = [];
+      for (var j = 0; j < problemCount; j++) {
+        var problem = this.generateProblem(problemType, i);
+        this.checkCellCount(problem);
+        problems[i].push(problem);
+      }
+
+    }
+    this.problems = problems;
+  }
+  checkCellCount(problem){
+    if(problem.initialText.length > gameData.cellCountX){
+      gameData.cellCountX = problem.initialText.length + 1;
+    }
+    var y = 1;
+    if(problem.subProblems){
+      for (var i = 0; i < problem.subProblems.length; i++) {
+        if(problem.subProblems[i].selectField.y > y){
+          y = problem.subProblems[i].selectField.y;
+        }
+      }
+    }
+    if(y > gameData.cellCountY){
+      gameData.cellCountY = y;
+    }
   }
   generateProblem(problemType, difficulty) {
     switch (problemType){
@@ -29,6 +58,13 @@ export class ProblemManager {
         console.log('error, no problemType set', problemType);
         return this.generateProblemPlus(difficulty);
     }
+  }
+  getNextProblem(difficulty){
+    var problems = this.problems[difficulty];
+    if(this.currentProblemIndex == undefined || this.currentProblemIndex >= problems.length){
+      this.currentProblemIndex = 0;
+    }
+    return problems[this.currentProblemIndex++];
   }
   generateDivisionPair(x,difficulty) {
     var minNumberToDivide = 2;
@@ -124,7 +160,6 @@ export class ProblemManager {
     problem.initialText = problem.number1 + problem.operator + problem.number2 + '=' + whiteSpaceResult;
     return problem;
   }
-
   generateProblemDivide(difficulty){
     var problem = {};
     var divisionPair =  this.generateDivisionPair(1,difficulty);
@@ -153,9 +188,15 @@ export class ProblemManager {
     problem.number2 = Math.floor(Math.random() * maxValue)+ minValue;
     problem.operator = '+';
     problem.result = problem.number1 + problem.number2;
+    problem.selectField = {x: 0, y: 3};
+    problem.markedFields = [];
     var whiteSpaceResult = ('' + problem.result).replace(/[0-9]/g, ' ');
-    problem.initialText = problem.number1 + problem.operator + problem.number2 + '=' + whiteSpaceResult;
+    problem.initialText = whiteSpaceResult;
+    problem.subProblemIndex = 0;
+    problem.subProblems = [JSON.parse(JSON.stringify(problem))];
+
     return problem;
+
   }
   generateProblemBigNumbersMinus(difficulty) {
     var maxValue = 1000;
@@ -169,17 +210,23 @@ export class ProblemManager {
     problem.number2 = Math.floor(Math.random() * (problem.number1 - minValue)) + minValue;
     problem.operator = '-';
     problem.result = problem.number1 - problem.number2;
+    problem.selectField = {x: 0, y: 3};
+    problem.markedFields = [];
     var whiteSpaceResult = ('' + problem.result).replace(/[0-9]/g, ' ');
-    problem.initialText = problem.number1 + problem.operator + problem.number2 + '=' + whiteSpaceResult;
+    problem.initialText = problem.number1 + '';
+    problem.subProblemIndex = 0;
+    problem.subProblems = [JSON.parse(JSON.stringify(problem))];
+
+
     return problem;
   }
   generateProblemBigNumbersMultiply(difficulty) {
     var maxValue1 = 10;
-    var maxValue2 = 1000;
+    var maxValue2 = 300;
     var minValue2 = 100;
     if (difficulty > 0) {
       //5 + Math.log(this.difficulty * 2 + 1);
-      maxValue2 = difficulty * 1000;
+      maxValue2 = difficulty * 100;
     }
     var problem = {};
     problem.number1 = Math.floor(Math.random() * maxValue1);
@@ -190,8 +237,7 @@ export class ProblemManager {
     problem.subProblems = [];
     problem.subProblemIndex = 0;
     problem.result = problem.number1 * problem.number2;
-    problem.initialText = problem.number1 + problem.operator + problem.number2;
-
+    problem.initialText = problem.number1 + problem.operator + problem.number2 + '';
 
     for (var i=number2Length - 1, j=0; i>=0; i--, j++) {
       var lengthToNumberOne = (problem.number2 + problem.operator).length
@@ -210,7 +256,6 @@ export class ProblemManager {
       problem.subProblems.push(subProblem);
 
     }
-
     var subProblem = {
       number1: problem.number1,
       number2: problem.number2,
@@ -257,7 +302,6 @@ export class ProblemManager {
 
         }
       var numberToDivideLength = (numberToDivide + '').length;
-      console.log('problem Text: ', problem.initialText, 'subProblem: ',  numberToDivide, numberToDivideLength);
 
        var i= -problemLength +1;
         // find write dividend and divide
@@ -417,8 +461,15 @@ export class ProblemManager {
           //  x2:  secondSubtraction.markedFields[0].x - 1, y2: firstSubtraction.drawLine.y2 + 2};
         }
         secondSubtraction.result = secondSubtraction.number1 - secondSubtraction.number2;
+        problem.gridAreaHeight = secondSubtraction.selectField.y;
+        problem.gridAreaWidth = problemLength;
         problem.subProblems.push(secondSubtraction);
+        console.log('problem Text: ', problem.initialText, 'subProblem: ',  numberToDivide, numberToDivideLength,
+                    'problemLength: ', (problem.initialText + '').length,
+                    'gridWidth.y: ', secondSubtraction.selectField.y);
+
       return problem;
+
 
     }
   }

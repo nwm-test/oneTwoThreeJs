@@ -1,4 +1,6 @@
 TODO:
+  // bigNumberMulpitply: selectCell
+  // Zahlen Buttons gleich groß mit Zelle
   // display an Aufgabe anpassen
   // bigNumbers multiply: bug beu 2-ter zahl zeile beheben
   // show info ausblenden bei neuer Aufgabe
@@ -6,7 +8,6 @@ TODO:
   // ScenenNamen: kleine 1x1, Rechnen mit großen Zahlen
   // hilfsbutton -> fieldmarker auch bei anderen aufgaben
   // button: nächste Aufgabe
-  // Multiplikation: select optimieren, '+' anzeigen
   // Punkte für gelöste aufgaben
   // Timescale
   // Multiplikation xyz*xyzw zerlegung
@@ -14,7 +15,6 @@ TODO:
   // Schätzaufgaben
   // remainder bei bigNumbersMinus hinzufügen
   // Einheiten und Dimensionen:  linie, quadrat, kugel skalieren
-  // vertikale Darstellung für bigNumbers: *, /
   // phaser 3 -> onresize, canvas board und button einheitlich parametrisieren
   //    https://stackoverflow.com/questions/48964723/phaser-3-change-dimensions-of-the-game-during-runtime
   // displaymanager: fontSize anpassen
@@ -24,6 +24,8 @@ TODO:
 
 DONE:
   // große Zahlen: Divide: markieren, selektieren subProblems übergeben
+  // vertikale Darstellung für bigNumbers: *, /
+  // Multiplikation: select optimieren, '+' anzeigen
   // kleine 1x1 divide: nur bis 9x9
   // wiederholte aufgaben nicht zulassen
   // Linie wieder löschen

@@ -56,7 +56,4 @@ export class PlayerScene extends Phaser.Scene {
     gameData.playerManager.addPlayer('guest');
     this.scene.start(SCENES.MENU);
     }
-
-
-
 }
