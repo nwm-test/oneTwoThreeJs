@@ -32,7 +32,14 @@ window.debug = new Debug(true, true, true);
     // debug.log("test");
     // start phaser game
 window.gameData= {
-    playerManager: new PlayerManager()
+    playerManager: new PlayerManager(),
+    isMobile: navigator.userAgent.indexOf("Mobile") != -1 || navigator.userAgent.indexOf("Mobile") != -1,
+}
+if(gameData.isMobile){
+    gameData.defaultFontSize = document.documentElement.clientWidth*0.07;
+}
+else{
+    gameData.defaultFontSize = document.documentElement.clientWidth*0.03;
 }
 var game = new Phaser.Game(config);
 window.game = game;

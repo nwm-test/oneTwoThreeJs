@@ -6,10 +6,10 @@ export class Grid extends Phaser.GameObjects.Grid {
     gridArea.height = gridArea.cellSize * gridArea.rowCount;
     gridArea.centerY = gridArea.top + gridArea.height/2;
 
-    gridArea.fontSize = gridArea.cellSize*0.5;
+    gridArea.fontSize = gridArea.cellSize*0.9;
     //debug.log(scene, gridArea);
 
-    super(scene, gridArea.centerX, gridArea.centerY, gridArea.width, gridArea.height, gridArea.cellSize, gridArea.cellSize, 0xe0e0e0, 1, 0xaaaaaa, 1);
+    super(scene, gridArea.centerX, gridArea.centerY, gridArea.width, gridArea.height, gridArea.cellSize, gridArea.cellSize, 0xfdfdfd, 1, 0x8d96ff, 0.8)
 
     this.gridArea = gridArea;
     this.scene = scene;
@@ -28,10 +28,10 @@ export class Grid extends Phaser.GameObjects.Grid {
     if(this.writtenText[x][y]) {
       this.writtenText[x][y].destroy();
     }
-    var newText = this.scene.add.text(-10, -10, character, { fill: '#000', fontSize: this.gridArea.fontSize+'px'});
+    var newText = this.scene.add.text(0, 0, character, { fill: '#000', fontSize: this.gridArea.fontSize+'px'});
 
-    newX -= newText.getCenter().x+10;
-    newY -= newText.getCenter().y+10;
+    newX -= newText.getCenter().x;
+    newY -= newText.getCenter().y;
     newText.setPosition(newX, newY);
     this.writtenText[x][y] = newText;
   }

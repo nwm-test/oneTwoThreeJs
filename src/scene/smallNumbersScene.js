@@ -22,32 +22,32 @@ export class SmallNumbersScene extends Phaser.Scene {
 
 
     // return to menuScene
-    var backToMenu = new Buttons(this, width*0.02, height*0.96, 'ZURÜCK', {
+    var backToMenu = new Buttons(this, width*0.11, height*0.9, 'ZURÜCK', {
       fill: '#fff'
     }, () => {
       this.scene.start(SCENES.MENU)
     });
 
     // create problem scenes
-    var plusButton = new Buttons(this, width*0.32, height*0.6, 'RECHNEN +', {
+    var plusButton = new Buttons(this, width*0.32, height*0.6, ' +', {
       fill: '#fff'
     }, () => {
       gameData.problemType = 'plus';
       this.scene.start(SCENES.PROBLEM)
     });
-    var minusButton = new Buttons(this, width*0.32, height*0.64, 'RECHNEN -', {
+    var minusButton = new Buttons(this, width*0.32, height*0.66, ' -', {
       fill: '#fff'
     }, () => {
       gameData.problemType = 'minus';
       this.scene.start(SCENES.PROBLEM)
     });
-    var multiplyButton = new Buttons(this, width*0.52, height*0.6, 'RECHNEN *', {
+    var multiplyButton = new Buttons(this, width*0.52, height*0.6, ' *', {
       fill: '#fff'
     }, () => {
       gameData.problemType = 'multiply';
       this.scene.start(SCENES.PROBLEM)
     });
-    var divideButton = new Buttons(this, width*0.52, height*0.64, 'RECHNEN /', {
+    var divideButton = new Buttons(this, width*0.52, height*0.66, ' /', {
       fill: '#fff'
     }, () => {
       gameData.problemType = 'divide';

@@ -38,7 +38,7 @@ export class ProblemScene extends Phaser.Scene {
   }
   onProblemUnsolved() {
     gameData.playerManager.changeDifficulty(-1);
-    this.displayManager.showScore();
+    this.displayManager.board.showScore();
   }
   // call bigNumberScene
     backToStart() {

@@ -19,15 +19,15 @@ export class PlayerScene extends Phaser.Scene {
     var netzwerkmedien = this.add.image(width*0.96, height*0.02, 'netzwerkmedien');
 
     // already registered users
-    var oldPlayer = new Buttons(this, width*0.32, height*0.60, 'Ich habe schon einen Account!', {
+    var oldPlayer = new Buttons(this, width*0.17, height*0.60, 'Weiter spielen', {
       fill: '#fff'
     }, () => this.loadOldPlayer());
     // registration button
-    var registryButton = new Buttons(this, width*0.32, height*0.63, 'Neuer Spieler', {
+    var registryButton = new Buttons(this, width*0.17, height*0.6 + gameData.defaultFontSize*1.5, 'Neues Spiel', {
       fill: '#fff'
     }, () => this.createNewUser());
     // test scene
-    var testScene = new Buttons(this, width*0.32, height*0.67, 'MENU SCENE', {
+    var testScene = new Buttons(this, width*0.17, height*0.6 + gameData.defaultFontSize*3, 'Test', {
       fill: '#fff'
     }, () => this.testScenes());
 

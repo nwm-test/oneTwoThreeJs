@@ -1,9 +1,8 @@
 TODO:
-  // Buttongröße anpassen
+  // grid auf ganzen Bildschirm?
   // bigNumberMulpitply: selectCell in subProblem
-  // Zahlen Buttons gleich groß mit Zelle
   // display an Aufgabe anpassen
-  // bigNumbers multiply: bug beu 2-ter zahl zeile beheben
+  // bigNumbers multiply: bug bei 2-ter zahl zeile beheben
   // show info ausblenden bei neuer Aufgabe
   // wenn difficulty == 30: showScreenGameOver
   // ScenenNamen: kleine 1x1, Rechnen mit großen Zahlen
@@ -24,6 +23,10 @@ TODO:
   // UML
 
 DONE:
+  // Abfrage 'isMobile'
+  // Buttongröße anpassen
+  // Zahlen Buttons gleich groß mit Zelle
+  // Zahlen bis an die Zellgrenze
   // grid dynamisch
   // große Zahlen: Divide: markieren, selektieren subProblems übergeben
   // vertikale Darstellung für bigNumbers: *, /
