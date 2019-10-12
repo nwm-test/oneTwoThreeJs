@@ -21,10 +21,10 @@ export class Board {
     // else{
     //
     // }
-    this.boardWidth = gameData.boardWidth *0.99;
-    this.boardHeight = this.canvasHeight * 0.99;
-    this.marginLeft = (this.canvasWidth - this.boardWidth)*0.99;
-    this.marginTop = this.canvasHeight * 0.01;
+    this.boardWidth = gameData.boardWidth - 12;
+    this.boardHeight = this.canvasHeight - 15;
+    this.marginLeft = (this.canvasWidth - this.boardWidth) - 12;
+    this.marginTop = 12;
     var board = this.scene.add.graphics();
     if(gameData.isMobile){
     }
@@ -36,9 +36,43 @@ export class Board {
                    this.boardWidth, this.boardHeight - gameData.numberButtonFontSize*1.2);
     board.strokeRect(this.marginLeft,this.marginTop,
                      this.boardWidth, this.boardHeight - gameData.numberButtonFontSize*1.3);
+                     board.strokeRect(this.marginLeft,this.marginTop,
+                                      this.boardWidth, this.boardHeight - gameData.numberButtonFontSize*1.3);
 
     this.board = board;
+    this.drawBorder(this.marginLeft, this.marginTop, this.boardWidth, this.boardHeight - gameData.numberButtonFontSize*1.2, board);
   }
+
+  // draw border lines
+  drawBorder(x, y, width, height, board){
+    var borderWidth = 2;
+    var middleBorderWidth = 6;
+    var outerBorderWidth = 2;
+
+    var offset = 0;
+    // color1 => draw rect, color2 => draw top & right
+    this.drawBorderLine(x, y, width, height, board, offset++, 0xbfd6ff, 0x174ca9);
+    this.drawBorderLine(x, y, width, height, board, offset++, 0xbfd6ff, 0x174ca9);
+    this.drawBorderLine(x, y, width, height, board, offset++, 0xbfd6ff, 0x174ca9);
+
+    this.drawBorderLine(x, y, width, height, board, offset++, 0x6398f5, 0x6398f5);
+    this.drawBorderLine(x, y, width, height, board, offset++, 0x6398f5, 0x6398f5);
+    this.drawBorderLine(x, y, width, height, board, offset++, 0x6398f5, 0x6398f5);
+    this.drawBorderLine(x, y, width, height, board, offset++, 0x6398f5, 0x6398f5);
+    this.drawBorderLine(x, y, width, height, board, offset++, 0x6398f5, 0x6398f5);
+
+    this.drawBorderLine(x, y, width, height, board, offset++, 0x174ca9, 0xbfd6ff);
+    this.drawBorderLine(x, y, width, height, board, offset++, 0x174ca9, 0xbfd6ff);
+    this.drawBorderLine(x, y, width, height, board, offset++, 0x174ca9, 0xbfd6ff);
+  }
+  drawBorderLine(x, y, width, height, board, offset, color1, color2){
+      var borderWidth = 1;
+      board.lineStyle(borderWidth, color1, 1);
+      board.strokeRect(x-offset, y-offset, width + 2 * offset, height+2*offset);
+      board.lineStyle(borderWidth, color2, 1);
+      board.strokePoints([new Phaser.Geom.Point(x-offset,y-offset), new Phaser.Geom.Point(x + width+offset, y-offset), new Phaser.Geom.Point(x + width + offset, y + height + offset)]);
+  }
+  //draw Grid to display the problem
   buildGrid(gridWidth, gridHeight){
     if(this.grid){
       this.grid.clear();
@@ -49,7 +83,7 @@ export class Board {
     var gridArea = {
       left: this.marginLeft,
       width: this.boardWidth,
-      top: this.marginTop,
+      top: this.marginTop + gameData.defaultFontSize*1.9,
       rowCount: gridHeight,
       columnCount: gridWidth,
     }
@@ -60,16 +94,15 @@ export class Board {
 
   // infotext on top
   showInfo(text, color) {
-    var style = { fill: color, fontSize: this.canvasWidth * 0.03};
+    var style = { fill: color, fontSize: gameData.defaultFontSize};
     if(this.info){
       this.info.destroy();
     }
     if(gameData.isMobile){
-        style = { fill: color, fontSize: this.canvasWidth * 0.08};
-        this.info = this.scene.add.text(this.grid.gridArea.left, this.grid.gridArea.top - this.canvasWidth * 0.16, text, style);
+        this.info = this.scene.add.text(this.grid.gridArea.left*1.07, this.marginTop + gameData.defaultFontSize*0.8, text, style);
     }
     else{
-      this.info = this.scene.add.text(this.grid.gridArea.left, this.grid.gridArea.top - this.canvasWidth * 0.08, text, style);
+      this.info = this.scene.add.text(this.grid.gridArea.left*1.07, this.marginTop + gameData.defaultFontSize*0.8, text, style);
     }
   }
   showScore() {

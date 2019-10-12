@@ -32,25 +32,25 @@ export class SmallNumbersScene extends Phaser.Scene {
     var plusButton = new Buttons(this, gameData.backgroundOffsetX + gameData.backgroundWidth * 0.3, gameData.backgroundOffsetY + gameData.backgroundHeight * 0.6, '+', {
       fill: '#fff'
     }, () => {
-      gameData.problemType = 'bigNumbersPlus';
+      gameData.problemType = '';
       this.scene.start(SCENES.PROBLEM)
     }, 0xc0ff00);
     var minusButton = new Buttons(this, gameData.backgroundOffsetX + gameData.backgroundWidth * 0.3, gameData.backgroundOffsetY + gameData.backgroundHeight * 0.6 + gameData.defaultButtonFontSize * 1.1, '-', {
       fill: '#fff'
     }, () => {
-      gameData.problemType = 'bigNumbersMinus';
+      gameData.problemType = '';
       this.scene.start(SCENES.PROBLEM)
     }, 0xc0ff00);
     var multiplyButton = new Buttons(this, gameData.backgroundOffsetX + gameData.backgroundWidth * 0.6, gameData.backgroundOffsetY + gameData.backgroundHeight * 0.6, '*', {
       fill: '#fff'
     }, () => {
-      gameData.problemType = 'bigNumbersMultiply';
+      gameData.problemType = '';
       this.scene.start(SCENES.PROBLEM)
     }, 0xc0ff00);
     var divideButton = new Buttons(this, gameData.backgroundOffsetX + gameData.backgroundWidth * 0.6, gameData.backgroundOffsetY + gameData.backgroundHeight * 0.6 + gameData.defaultButtonFontSize * 1.1, '/', {
       fill: '#fff'
     }, () => {
-      gameData.problemType = 'bigNumbersDivide';
+      gameData.problemType = '';
       this.scene.start(SCENES.PROBLEM)
     }, 0xc0ff00);
   }

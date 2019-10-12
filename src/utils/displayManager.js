@@ -127,7 +127,7 @@ export class DisplayManager {
     }
 
   showProblem(problem) {
-    this.gridArea = this.board.buildGrid(12,gameData.cellCountY + 1); //problem.gridAreaWidth, problem.gridAreaHeight);
+    this.gridArea = this.board.buildGrid(11,gameData.cellCountY + 1); //problem.gridAreaWidth, problem.gridAreaHeight);
     this.createNumberButtons();
     this.board.showInfo('Viel Glück!!', '#f80');
     this.board.showScore();

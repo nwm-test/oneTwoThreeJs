@@ -1,11 +1,7 @@
 TODO:
-  // setFrame um die Tafel
-  // sprites für hilfpfeil erstellen
-  // showScore links ausrichten
-  // Buttongröße anpassen für Mobile
+  // sprites für hilfspfeil erstellen
   // wide Screen Ausrichtung für Mobile
   // infobox unter der Tafel
-  // grid auf ganzen Bildschirm?
   // bigNumberMulpitply: selectCell in subProblem
   // display an Aufgabe anpassen
   // bigNumbers multiply: bug bei 2-ter zahl zeile beheben
@@ -29,6 +25,9 @@ TODO:
   // UML
 
 DONE:
+  // showScore links ausrichten
+  // setFrame um die Tafel
+  // Buttongröße anpassen für Mobile
   // Abfrage 'isMobile'
   // Buttongröße anpassen
   // Zahlen Buttons gleich groß mit Zelle
