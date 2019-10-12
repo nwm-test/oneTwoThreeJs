@@ -34,13 +34,41 @@ window.debug = new Debug(true, true, true);
 window.gameData= {
     playerManager: new PlayerManager(),
     isMobile: navigator.userAgent.indexOf("Mobile") != -1 || navigator.userAgent.indexOf("Mobile") != -1,
+    backgroundOffsetX: document.documentElement.clientWidth,
+    buttonOffsetX: document.documentElement.clientWidth,
+    buttonOffsetY: document.documentElement.clientHeight,
+
 }
 if(gameData.isMobile){
-    gameData.defaultFontSize = document.documentElement.clientWidth*0.07;
+    gameData.defaultFontSize = document.documentElement.clientWidth*0.05;
+    gameData.boardWidth = document.documentElement.clientWidth*0.6;
+    gameData.defaultButtonFontSize = document.documentElement.clientWidth * 0.055;
+    gameData.numberButtonFontSize = gameData.boardWidth*0.13;
+    gameData.backgroundOffsetX = document.documentElement.clientWidth*0.009;
+    gameData.backgroundOffsetY = document.documentElement.clientHeight*0.019;
+    gameData.backgroundWidth = document.documentElement.clientWidth - 2* gameData.backgroundOffsetX;
+    gameData.backgroundHeight = document.documentElement.clientHeight - 2* gameData.backgroundOffsetY;
+    gameData.buttonOffsetX = document.documentElement.clientWidth*0.04;
+    gameData.buttonOffsetY = document.documentElement.clientHeight*0.5;
+    gameData.canvasWidth = document.documentElement.clientWidth;
+    gameData.canvasHeight = document.documentElement.clientHeight;
+
 }
 else{
     gameData.defaultFontSize = document.documentElement.clientWidth*0.03;
+    gameData.boardWidth = document.documentElement.clientWidth*0.6;
+    gameData.defaultButtonFontSize = document.documentElement.clientWidth * 0.04;
+    gameData.numberButtonFontSize = gameData.boardWidth*0.1;
+    gameData.backgroundOffsetX = document.documentElement.clientWidth*0.16;
+    gameData.backgroundOffsetY = document.documentElement.clientHeight*0.17;
+    gameData.backgroundWidth = document.documentElement.clientWidth - 2 * gameData.backgroundOffsetX;
+    gameData.backgroundHeight = document.documentElement.clientHeight - 2 * gameData.backgroundOffsetY;
+    gameData.buttonOffsetX = document.documentElement.clientWidth*0.17;
+    gameData.buttonOffsetY = document.documentElement.clientHeight*0.55;
+    gameData.canvasWidth = document.documentElement.clientWidth;
+    gameData.canvasHeight = document.documentElement.clientHeight;
 }
+console.log('game Data: ', gameData);
 var game = new Phaser.Game(config);
 window.game = game;
 var displayWindowSize = function(){

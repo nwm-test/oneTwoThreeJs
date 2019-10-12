@@ -24,7 +24,7 @@ export class ProblemManager {
     if(problem.initialText.length > gameData.cellCountX){
       gameData.cellCountX = problem.initialText.length + 1;
     }
-    var y = 1;
+    var y = 2;
     if(problem.subProblems){
       for (var i = 0; i < problem.subProblems.length; i++) {
         if(problem.subProblems[i].selectField.y > y){

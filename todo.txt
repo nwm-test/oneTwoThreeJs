@@ -1,4 +1,10 @@
 TODO:
+  // setFrame um die Tafel
+  // sprites für hilfpfeil erstellen
+  // showScore links ausrichten
+  // Buttongröße anpassen für Mobile
+  // wide Screen Ausrichtung für Mobile
+  // infobox unter der Tafel
   // grid auf ganzen Bildschirm?
   // bigNumberMulpitply: selectCell in subProblem
   // display an Aufgabe anpassen

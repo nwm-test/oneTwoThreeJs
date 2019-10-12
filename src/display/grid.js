@@ -6,7 +6,7 @@ export class Grid extends Phaser.GameObjects.Grid {
     gridArea.height = gridArea.cellSize * gridArea.rowCount;
     gridArea.centerY = gridArea.top + gridArea.height/2;
 
-    gridArea.fontSize = gridArea.cellSize*0.9;
+    gridArea.fontSize = gridArea.cellSize*1.2;
     //debug.log(scene, gridArea);
 
     super(scene, gridArea.centerX, gridArea.centerY, gridArea.width, gridArea.height, gridArea.cellSize, gridArea.cellSize, 0xfdfdfd, 1, 0x8d96ff, 0.8)

@@ -13,7 +13,6 @@ export class DisplayManager {
     this.canvasHeight = scene.sys.game.canvas.height;
     this.board = new Board(scene);
     this.playerManager = new PlayerManager();
-    this.createReturnButton();
     this.onProblemSolvedCallback = onProblemSolvedCallback;
     this.onProblemUnsolvedCallback = onProblemUnsolvedCallback;
 
@@ -21,22 +20,29 @@ export class DisplayManager {
   }
 
     // create button to return to startScene
-    createReturnButton(){
-      var startSceneButton = new Buttons(this.scene, this.canvasWidth*0.11 ,this.canvasHeight*0.93, 'ZURÜCK', {
-        fill: '#FFFF00', fontSize: gameData.defaultFontSize
-      }, () => this.scene.backToStart());
+
+    // create a button to press a number
+    createButton(x, y, number) {
+      this.buttons[number] = new Buttons(this.scene, x, y, number, { fill: '#fff', fontSize: gameData.numberButtonFontSize}, () => this.onButtonPressed(number));
     }
     // set position of "number buttons" depending on board parameters
     createNumberButtons() {
       this.buttons = [];
       // listen for key events
       this.scene.input.keyboard.on('keydown', (event)=> this.onKeyDown(event));
-      for (var i = 0; i < 5; i++) {
-        this.createButton(this.board.grid.gridArea.left+i*this.board.grid.gridArea.width/5, this.board.grid.gridArea.top+this.board.grid.gridArea.height+10,  i);
+      for (var i = 0; i < 10; i++) {
+        this.createButton(this.board.grid.gridArea.left+i*this.board.grid.gridArea.width/10, this.canvasHeight - gameData.numberButtonFontSize * 1.1,  i);
       }
-      for (var i = 5; i < 10; i++) {
-        this.createButton(this.board.grid.gridArea.left+(i-5)*this.board.grid.gridArea.width/5, this.board.grid.gridArea.top+this.board.grid.gridArea.height+this.board.grid.gridArea.cellSize*1.5, i);
-      }
+      // for (var i = 7; i < 10; i++) {
+      //   this.createButton(this.board.grid.gridArea.left+i*this.board.grid.gridArea.width/5, this.canvasHeight - gameData.defaultButtonFontSize*3,  i);
+      // }
+      // for (var i = 4; i < 7; i++) {
+      //   this.createButton(this.board.grid.gridArea.left+i*this.board.grid.gridArea.width/5, this.canvasHeight - gameData.defaultButtonFontSize*1.2,  i);
+      // }
+      // for (var i = 1; i < 4; i++) {
+      //   this.createButton(this.board.grid.gridArea.left+i*this.board.grid.gridArea.width/5, this.canvasHeight - gameData.defaultButtonFontSize,  i);
+      // }
+      // this.createButton(this.board.grid.gridArea.left+i*this.board.grid.gridArea.width, this.canvasHeight - gameData.defaultButtonFontSize * 5,  0);
 
     }
     // check if pressed key is a number
@@ -46,10 +52,6 @@ export class DisplayManager {
       }
 
     }
-    createButton(x, y, number) {
-      this.buttons[number] = new Buttons(this.scene, x, y, number, { fill: '#fff', fontSize: this.board.grid.gridArea.cellSize*1.1 }, () => this.onButtonPressed(number));
-    }
-
     // number == user input: [0,...,9]
     onButtonPressed(number) {
       var lastCell = this.board.grid.gridArea.columnCount - 2;
@@ -125,7 +127,7 @@ export class DisplayManager {
     }
 
   showProblem(problem) {
-    this.gridArea = this.board.buildGrid(gameData.cellCountX + 1,gameData.cellCountY + 2); //problem.gridAreaWidth, problem.gridAreaHeight);
+    this.gridArea = this.board.buildGrid(12,gameData.cellCountY + 1); //problem.gridAreaWidth, problem.gridAreaHeight);
     this.createNumberButtons();
     this.board.showInfo('Viel Glück!!', '#f80');
     this.board.showScore();

@@ -15,28 +15,27 @@ export class Board {
       this.board.destroy();
     }
     // define board parameter
-    if(this.canvasWidth< this.canvasHeight){
-      this.boardWidth = this.canvasWidth * 0.8;
-      this.boardHeight = this.canvasHeight * 0.4;
-    }
-    else{
-      this.boardWidth = this.canvasWidth * 0.3;
-      this.boardHeight = this.canvasHeight * 0.5;
-    }
-    this.marginLeft = (this.canvasWidth - this.boardWidth) / 2;
-    this.marginTop = (this.canvasHeight - this.boardHeight) / 2;
+   //  if(this.canvasWidth< this.canvasHeight){
+   // //bitte dreh dein Handy
+   //  }
+    // else{
+    //
+    // }
+    this.boardWidth = gameData.boardWidth;
+    this.boardHeight = this.canvasHeight;
+    this.marginLeft = this.canvasWidth - this.boardWidth;
+    this.marginTop = 0;
+    var board = this.scene.add.graphics();
     if(gameData.isMobile){
-      this.marginTop = (this.canvasHeight- this.boardHeight)/3;
     }
 
     // draw board
-    var board = this.scene.add.graphics()
     board.lineStyle(5, 0xFF00FF, 0);
-    board.fillStyle(0xFFFFFF, 0);
+    board.fillStyle(0xFFFFFF, 1);
     board.fillRect(this.marginLeft, this.marginTop,
-                   this.boardWidth, this.boardHeight*1.8);
+                   this.boardWidth, this.boardHeight - gameData.numberButtonFontSize*1.2);
     board.strokeRect(this.marginLeft,this.marginTop,
-                     this.boardWidth, this.boardHeight*1.8);
+                     this.boardWidth, this.boardHeight - gameData.numberButtonFontSize*1.3);
 
     this.board = board;
   }
@@ -45,7 +44,7 @@ export class Board {
       this.grid.clear();
       this.grid.destroy();
     }
-    this.buildBoard();
+    //this.buildBoard();
     // define grid area parameter
     var gridArea = {
       left: this.marginLeft,
@@ -74,17 +73,17 @@ export class Board {
     }
   }
   showScore() {
-    var text= 'Aufgabe: ' + gameData.playerManager.getPlayer().solvedProblems + ' Level: ' + gameData.playerManager.getPlayer().level;
-    var style = { fill: '#00ffff', fontSize: this.canvasWidth * 0.02, rtl: true };
-
+    var text= 'Aufgabe: ' + gameData.playerManager.getPlayer().solvedProblems + '\n' + 'Level: ' + gameData.playerManager.getPlayer().level;
+    var style = { fill: '#00ffff', fontSize: gameData.defaultFontSize};
     if(this.score)
       this.score.destroy();
       if(gameData.isMobile){
-        var style = { fill: '#00ffff', fontSize: this.canvasWidth * 0.06, rtl: true};
-        this.score = this.scene.add.text(this.grid.gridArea.left + this.grid.gridArea.width, this.grid.gridArea.top*0.04, text, style);
+        this.score = this.scene.add.text(0,0,text,style);
+        //this.scene.add.text(this.grid.gridArea.left + this.grid.gridArea.width, this.grid.gridArea.top*0.04, text, style);
       }
       else{
-        this.score = this.scene.add.text(this.grid.gridArea.left + this.grid.gridArea.width, this.grid.gridArea.top*0.04, text, style);
+        this.score = this.scene.add.text(0,0, text, style);
       }
   }
+
 }

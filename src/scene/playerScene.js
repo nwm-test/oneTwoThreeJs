@@ -15,21 +15,21 @@ export class PlayerScene extends Phaser.Scene {
       width,
       height
     } = this.sys.game.canvas;
-    var background = this.add.image(width*0.16, height*0.15, 'startSceneBackground').setOrigin(0, 0);
-    var netzwerkmedien = this.add.image(width*0.96, height*0.02, 'netzwerkmedien');
-
+    var background = this.add.image(gameData.backgroundOffsetX, gameData.backgroundOffsetY, 'startSceneBackground').setOrigin(0, 0);
+    var netzwerkmedien = this.add.image(gameData.canvasWidth*0.91, gameData.defaultFontSize, 'netzwerkmedien');
+    // test scene
+    var testScene = new Buttons(this, gameData.buttonOffsetX, gameData.buttonOffsetY, 'Test', {
+      fill: '#fff'
+    }, () => this.testScenes());
     // already registered users
-    var oldPlayer = new Buttons(this, width*0.17, height*0.60, 'Weiter spielen', {
+    var oldPlayer = new Buttons(this, gameData.buttonOffsetX, gameData.buttonOffsetY + gameData.defaultFontSize*3, 'Weiter spielen', {
       fill: '#fff'
     }, () => this.loadOldPlayer());
     // registration button
-    var registryButton = new Buttons(this, width*0.17, height*0.6 + gameData.defaultFontSize*1.5, 'Neues Spiel', {
+    var registryButton = new Buttons(this,gameData.buttonOffsetX, gameData.buttonOffsetY + gameData.defaultFontSize*1.5, 'Neues Spiel', {
       fill: '#fff'
     }, () => this.createNewUser());
-    // test scene
-    var testScene = new Buttons(this, width*0.17, height*0.6 + gameData.defaultFontSize*3, 'Test', {
-      fill: '#fff'
-    }, () => this.testScenes());
+
 
 
 
@@ -54,6 +54,7 @@ export class PlayerScene extends Phaser.Scene {
   // testing mode
   testScenes() {
     gameData.playerManager.addPlayer('guest');
-    this.scene.start(SCENES.MENU);
+    gameData.problemType = 'bigNumbersDivide';
+    this.scene.start(SCENES.BIG_NUMBERS);
     }
 }

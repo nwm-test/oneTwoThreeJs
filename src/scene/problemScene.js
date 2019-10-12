@@ -1,5 +1,6 @@
 // in this scene user solves problems
 import { Board } from '../display/board';
+import { Buttons } from '../display/buttons';
 import { DisplayManager } from '../utils/displayManager';
 import { ProblemManager } from '../utils/problemManager';
 
@@ -19,6 +20,15 @@ export class ProblemScene extends Phaser.Scene {
     this.problemManager.generateProblems(40, 10, gameData.problemType, gameData.playerManager.getPlayer().level);
     var problem = this.problemManager.getNextProblem(gameData.playerManager.getPlayer().level);
     this.displayManager.showProblem(problem);
+    this.createReturnButton();
+
+  }
+  // Back to menu button
+  createReturnButton(){
+    var startSceneButton = new Buttons(this, gameData.canvasWidth*0.01, gameData.canvasHeight - gameData.numberButtonFontSize*0.8, 'ZURÜCK', {
+      fill: '#FFFF00', fontSize: gameData.defaultButtonFontSize * 1.2
+    }, () => this.backToStart());
+    console.log('heigth: ', gameData.boardHeight);
   }
   // generate next problem
   onProblemSolved() {

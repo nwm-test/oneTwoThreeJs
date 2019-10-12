@@ -14,47 +14,43 @@ export class BigNumbersScene extends Phaser.Scene {
   }
   // Create objects
   create() {
-    //var width = this.sys.game.canvas.width; var height = this.sys.game.canvas.height;
-    var {
-      width,
-      height
-    } = this.sys.game.canvas;
-    var background = this.add.image(width*0.16, height*0.15, 'startSceneBackground').setOrigin(0, 0);
-    var netzwerkmedien = this.add.image(width*0.96, height*0.02, 'netzwerkmedien');
+
+    var background = this.add.image(gameData.backgroundOffsetX, gameData.backgroundOffsetY, 'startSceneBackground').setOrigin(0, 0);
+    var netzwerkmedien = this.add.image(gameData.canvasWidth*0.91, gameData.defaultFontSize, 'netzwerkmedien');
 
     // return to menuScene
-    var backToMenu = new Buttons(this, width*0.11, height*0.9, 'ZURÜCK', {
-      fill: '#fff'
+    var backToMenu = new Buttons(this, gameData.canvasWidth*0.01, gameData.canvasHeight - gameData.numberButtonFontSize*0.8, 'ZURÜCK', {
+      fill: '#FFFF00', fontSize: gameData.defaultButtonFontSize * 1.2
     }, () => {
       this.scene.start(SCENES.MENU)
     });
 
     // create problem scenes
-    var plusButton = new Buttons(this, width*0.32, height*0.6, '+', {
+    var plusButton = new Buttons(this, gameData.backgroundOffsetX + gameData.backgroundWidth * 0.3, gameData.backgroundOffsetY + gameData.backgroundHeight * 0.6, '+', {
       fill: '#fff'
     }, () => {
       gameData.problemType = 'bigNumbersPlus';
       this.scene.start(SCENES.PROBLEM)
     }, 0xc0ff00);
-    var minusButton = new Buttons(this, width*0.32, height*0.66, '-', {
+    var minusButton = new Buttons(this, gameData.backgroundOffsetX + gameData.backgroundWidth * 0.3, gameData.backgroundOffsetY + gameData.backgroundHeight * 0.6 + gameData.defaultButtonFontSize * 1.1, '-', {
       fill: '#fff'
     }, () => {
       gameData.problemType = 'bigNumbersMinus';
       this.scene.start(SCENES.PROBLEM)
     }, 0xc0ff00);
-    var multiplyButton = new Buttons(this, width*0.52, height*0.6, '*', {
+    var multiplyButton = new Buttons(this, gameData.backgroundOffsetX + gameData.backgroundWidth * 0.6, gameData.backgroundOffsetY + gameData.backgroundHeight * 0.6, '*', {
       fill: '#fff'
     }, () => {
       gameData.problemType = 'bigNumbersMultiply';
       this.scene.start(SCENES.PROBLEM)
     }, 0xc0ff00);
-    var divideButton = new Buttons(this, width*0.52, height*0.66, '/', {
+    var divideButton = new Buttons(this, gameData.backgroundOffsetX + gameData.backgroundWidth * 0.6, gameData.backgroundOffsetY + gameData.backgroundHeight * 0.6 + gameData.defaultButtonFontSize * 1.1, '/', {
       fill: '#fff'
     }, () => {
       gameData.problemType = 'bigNumbersDivide';
       this.scene.start(SCENES.PROBLEM)
     }, 0xc0ff00);
-    console.log(gameData);
+    console.log('buttonOffsetY :', gameData.buttonOffsetY);
 
   }
 }
