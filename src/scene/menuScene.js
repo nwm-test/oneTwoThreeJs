@@ -19,7 +19,7 @@ export class MenuScene extends Phaser.Scene {
     var background = this.add.image(gameData.backgroundOffsetX, gameData.backgroundOffsetY, 'startSceneBackground').setOrigin(0, 0);
     var netzwerkmedien = this.add.image(gameData.width*0.96, height*0.02, 'netzwerkmedien');
     // return to playerScene
-    var backToPlayer = new Buttons(this, gameData.canvasWidth*0.01, gameData.canvasHeight - gameData.numberButtonFontSize*0.8, 'ZURÜCK', {
+    var backToPlayer = new Buttons(this, gameData.canvasWidth*0.01, gameData.canvasHeight - gameData.numberButtonFontSize, 'ZURÜCK', {
     fill: '#FFFF00', fontSize: gameData.defaultButtonFontSize * 1.2
     }, () => {
       this.scene.start(SCENES.PLAYER)

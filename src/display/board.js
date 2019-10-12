@@ -21,10 +21,10 @@ export class Board {
     // else{
     //
     // }
-    this.boardWidth = gameData.boardWidth;
-    this.boardHeight = this.canvasHeight;
-    this.marginLeft = this.canvasWidth - this.boardWidth;
-    this.marginTop = 0;
+    this.boardWidth = gameData.boardWidth *0.99;
+    this.boardHeight = this.canvasHeight * 0.99;
+    this.marginLeft = (this.canvasWidth - this.boardWidth)*0.99;
+    this.marginTop = this.canvasHeight * 0.01;
     var board = this.scene.add.graphics();
     if(gameData.isMobile){
     }
@@ -78,11 +78,11 @@ export class Board {
     if(this.score)
       this.score.destroy();
       if(gameData.isMobile){
-        this.score = this.scene.add.text(0,0,text,style);
+        this.score = this.scene.add.text(gameData.canvasWidth*0.01,gameData.canvasHeight*0.01,text,style);
         //this.scene.add.text(this.grid.gridArea.left + this.grid.gridArea.width, this.grid.gridArea.top*0.04, text, style);
       }
       else{
-        this.score = this.scene.add.text(0,0, text, style);
+        this.score = this.scene.add.text(gameData.canvasWidth*0.01,gameData.canvasHeight*0.01, text, style);
       }
   }
 

@@ -21,7 +21,7 @@ export class SmallNumbersScene extends Phaser.Scene {
     var netzwerkmedien = this.add.image(gameData.canvasWidth*0.91, gameData.defaultFontSize, 'netzwerkmedien');
 
     // return to menuScene
-    var backToMenu = new Buttons(this, gameData.canvasWidth*0.01, gameData.canvasHeight - gameData.numberButtonFontSize*0.8, 'ZURÜCK', {
+    var backToMenu = new Buttons(this, gameData.canvasWidth*0.01, gameData.canvasHeight - gameData.numberButtonFontSize, 'ZURÜCK', {
       fill: '#FFFF00', fontSize: gameData.defaultButtonFontSize * 1.2
     }, () => {
       this.scene.start(SCENES.MENU)

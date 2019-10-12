@@ -25,7 +25,7 @@ export class ProblemScene extends Phaser.Scene {
   }
   // Back to menu button
   createReturnButton(){
-    var startSceneButton = new Buttons(this, gameData.canvasWidth*0.01, gameData.canvasHeight - gameData.numberButtonFontSize*0.8, 'ZURÜCK', {
+    var startSceneButton = new Buttons(this, gameData.canvasWidth*0.01, gameData.canvasHeight - gameData.numberButtonFontSize, 'ZURÜCK', {
       fill: '#FFFF00', fontSize: gameData.defaultButtonFontSize * 1.2
     }, () => this.backToStart());
     console.log('heigth: ', gameData.boardHeight);
