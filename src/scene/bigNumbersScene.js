@@ -50,7 +50,6 @@ export class BigNumbersScene extends Phaser.Scene {
       gameData.problemType = 'bigNumbersDivide';
       this.scene.start(SCENES.PROBLEM)
     }, 0xc0ff00);
-    console.log('buttonOffsetY :', gameData.buttonOffsetY);
 
   }
 }

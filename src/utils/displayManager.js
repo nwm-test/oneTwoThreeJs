@@ -27,6 +27,10 @@ export class DisplayManager {
     }
     // set position of "number buttons" depending on board parameters
     createNumberButtons() {
+      if(this.buttonsCreated){
+        return;
+      }
+      this.buttonsCreated = true;
       this.buttons = [];
       // listen for key events
       this.scene.input.keyboard.on('keydown', (event)=> this.onKeyDown(event));
@@ -56,7 +60,6 @@ export class DisplayManager {
     onButtonPressed(number) {
       var lastCell = this.board.grid.gridArea.columnCount - 2;
       var problem = this.problem;
-      console.log(problem);
       // handle different problem types
       while (problem.subProblems) {
         problem = problem.subProblems[problem.subProblemIndex];
@@ -66,39 +69,53 @@ export class DisplayManager {
       // get the last numbers of the result
       var partResult = problem.result % Math.pow(10, this.cursorIndex+1);
       // compare input with right answer
+      console.log('check result', newInput, partResult, problem);
       if(newInput == partResult) {
         this.userInput = newInput;
         // right answer
         this.board.grid.writeInCell(this.board.grid.selectionX, this.board.grid.selectionY, number);
         // right answer, but the number has more digits
+
         if(newInput != problem.result) {
           this.board.grid.selectCell(this.board.grid.selectionX - 1, this.board.grid.selectionY);
           // write remainder on plus problem
-          if (problem.operator == '+') {
-            var remainder = Math.floor(((problem.number1% Math.pow(10, this.cursorIndex+1))+(problem.number2% Math.pow(10, this.cursorIndex+1)))/Math.pow(10, this.cursorIndex+1))
+          if (problem.operator || this.problem.subProblems[this.problem.subProblemIndex].operator == ' + ') {
+            var remainder = problem.remainder;
             if(remainder>0) {
+              console.log('display Mnager remainder:', remainder);
               this.board.grid.writeRemainder(this.board.grid.selectionX, this.board.grid.selectionY, remainder);
             }
             else {
-              this.board.grid.writeRemainder(this.board.grid.selectionX, this.board.grid.selectionY, " ");
+              this.board.grid.writeRemainder(this.board.grid.selectionX, this.board.grid.selectionY, "");
             }
           }
           this.cursorIndex++;
           // divide big number multiplication in subProblems
         } else {
+        // next SubProblem
           this.board.grid.demarkAllFields();
           if(this.problem.subProblems && this.problem.subProblems.length-1 > this.problem.subProblemIndex) {
             this.problem.subProblemIndex++;
             this.cursorIndex = 0;
             this.userInput = 0;
             var subProblem = this.problem.subProblems[this.problem.subProblemIndex];
-            for (var offset of subProblem.markedFields) {
-              this.board.grid.markField(lastCell+offset.x, offset.y);
+            if(subProblem.markedFields){
+              for (var offset of subProblem.markedFields) {
+                this.board.grid.markField(lastCell+offset.x, offset.y);
+              }
             }
             this.board.grid.selectCell(lastCell+subProblem.selectField.x, subProblem.selectField.y);
             if (subProblem.drawLine) {
               this.board.grid.drawLine(lastCell+subProblem.drawLine.x1, 1+subProblem.drawLine.y1,
                                        lastCell+subProblem.drawLine.x2, 1+subProblem.drawLine.y2);
+            }
+            var remainder = subProblem.remainder;
+            if(remainder>0) {
+              console.log('display Mnager remainder:', remainder);
+              this.board.grid.writeRemainder(this.board.grid.selectionX, this.board.grid.selectionY, remainder);
+            }
+            else {
+              this.board.grid.writeRemainder(this.board.grid.selectionX, this.board.grid.selectionY, "");
             }
           } else {
             // right answer -> next problem
@@ -116,8 +133,12 @@ export class DisplayManager {
         // wrong answer
         //this.board.showInfo(this.problem.subProblems[this.problem.subProblemIndex], ' = ?');
         this.board.showInfo('Bist du sicher? \nVersuchs nochmal! ', '#f00');
+        var subProblem = this.problem.subProblems[this.problem.subProblemIndex];
+        console.log('subProblem displayM: ', subProblem);
+
+        this.board.showAdvice(subProblem.initialText);
         this.scene.time.addEvent({
-            delay: 100,                // ms
+            delay: 5000,                // ms
             callback: this.onProblemUnsolvedCallback,
             //args: [],
             callbackScope: this.scene,
@@ -143,8 +164,10 @@ export class DisplayManager {
       this.scene.time.addEvent({
           delay: 700,                // ms
           callback: () => {
-            for (var offset of subProblem.markedFields) {
-              this.board.grid.markField(lastCell + offset.x, offset.y);
+            if(subProblem.markedFields){
+              for (var offset of subProblem.markedFields) {
+                this.board.grid.markField(lastCell + offset.x, offset.y);
+              }
             }
             this.board.grid.selectCell(lastCell+ subProblem.selectField.x, subProblem.selectField.y);
           },

@@ -45,9 +45,9 @@ export class Board {
 
   // draw border lines
   drawBorder(x, y, width, height, board){
-    var borderWidth = 2;
-    var middleBorderWidth = 6;
-    var outerBorderWidth = 2;
+    // var borderWidth = 2;
+    // var middleBorderWidth = 6;
+    // var outerBorderWidth = 2;
 
     var offset = 0;
     // color1 => draw rect, color2 => draw top & right
@@ -84,6 +84,7 @@ export class Board {
       left: this.marginLeft,
       width: this.boardWidth,
       top: this.marginTop + gameData.defaultFontSize*1.9,
+      bottom: gameData.defaultFontSize*7,
       rowCount: gridHeight,
       columnCount: gridWidth,
     }
@@ -117,6 +118,18 @@ export class Board {
       else{
         this.score = this.scene.add.text(gameData.canvasWidth*0.01,gameData.canvasHeight*0.01, text, style);
       }
+  }
+  showAdvice(text){
+    var style = { fill: 0x174ca9, fontSize: gameData.defaultFontSize};
+    if(this.adviceText){
+      this.adviceText.destroy();
+    }
+    if(gameData.isMobile){
+      this.adviceText = this.scene.add.text(this.grid.gridArea.left*1.07, this.boardHeight - gameData.defaultButtonFontSize*3, text, style);
+    }
+    else{
+      this.adviceText = this.scene.add.text(this.grid.gridArea.left*1.07, this.boardHeight - gameData.defaultButtonFontSize*3, text, style);
+    }
   }
 
 }

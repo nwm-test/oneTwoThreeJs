@@ -22,7 +22,6 @@ export class Grid extends Phaser.GameObjects.Grid {
   }
   // Write into a cell
   writeInCell(x, y, character) {
-    console.log('writeInCell', x, y);
     var newX = this.gridArea.left + (x+0.5)*this.gridArea.cellSize;
     var newY = this.gridArea.top + (y+0.5)*this.gridArea.cellSize;
     if(this.writtenText[x][y]) {

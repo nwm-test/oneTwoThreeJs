@@ -24,12 +24,16 @@ export class ProblemManager {
     if(problem.initialText.length > gameData.cellCountX){
       gameData.cellCountX = problem.initialText.length + 1;
     }
+    console.log(problem.subProblems);
     var y = 2;
     if(problem.subProblems){
       for (var i = 0; i < problem.subProblems.length; i++) {
-        if(problem.subProblems[i].selectField.y > y){
-          y = problem.subProblems[i].selectField.y;
+        if (problem.subProblems.selectField) {
+          if(problem.subProblems[i].selectField.y > y){
+            y = problem.subProblems[i].selectField.y;
+          }
         }
+
       }
     }
     if(y > gameData.cellCountY){
@@ -81,20 +85,12 @@ export class ProblemManager {
         maxNumberToDivide = Math.floor(Math.log(20*difficulty^2/2+1));
         minDivisionNumber = Math.floor(Math.log((15*difficulty+1)));
         maxDivisionNumber = Math.floor(Math.log((25*difficulty+2)));
-        console.log('minNumberToDivide: ', minNumberToDivide,
-                    'maxNumberToDivide: ', maxNumberToDivide,
-                    'minDivisionNumber: ', minDivisionNumber,
-                    'maxDivisionNumber: ', maxDivisionNumber);
           break;
         case (2):
           minNumberToDivide = Math.floor(10 + Math.log((15*difficulty+2)));
           maxNumberToDivide = Math.floor(15 + Math.log(20*difficulty^2/2) + 1);
           minDivisionNumber = Math.floor(1 + Math.log((15*difficulty+2)));
           maxDivisionNumber = Math.floor(2 + Math.log((15*difficulty+2)));
-          console.log('minNumberToDivide: ', minNumberToDivide,
-                      'maxNumberToDivide: ', maxNumberToDivide,
-                      'minDivisionNumber: ', minDivisionNumber,
-                      'maxDivisionNumber: ', maxDivisionNumber);
           break;
         default:
         var minNumberToDivide = 2;
@@ -125,6 +121,9 @@ export class ProblemManager {
     problem.result = problem.number1 + problem.number2;
     var whiteSpaceResult = ('' + problem.result).replace(/[0-9]/g, ' ');
     problem.initialText = problem.number1 + problem.operator + problem.number2 + '=' + whiteSpaceResult;
+    var subProblem =
+    problem.subProblemIndex = 0;
+    problem.subProblems = [JSON.parse(JSON.stringify(problem))];
     return problem;
   }
   generateProblemMinus(difficulty){
@@ -144,6 +143,8 @@ export class ProblemManager {
     // transfrom numbers in whitespace
     var whiteSpaceResult = ('' + problem.result).replace(/[0-9]/g, ' ');
     problem.initialText = problem.number1 + problem.operator + problem.number2 + '=' + whiteSpaceResult;
+    problem.subProblemIndex = 0;
+    problem.subProblems = [JSON.parse(JSON.stringify(problem))];
     return problem;
   }
   generateProblemMultiply(difficulty){
@@ -158,6 +159,8 @@ export class ProblemManager {
     // transfrom numbers in whitespace
     var whiteSpaceResult = ('' + problem.result).replace(/[0-9]/g, ' ');
     problem.initialText = problem.number1 + problem.operator + problem.number2 + '=' + whiteSpaceResult;
+    problem.subProblemIndex = 0;
+    problem.subProblems = [JSON.parse(JSON.stringify(problem))];
     return problem;
   }
   generateProblemDivide(difficulty){
@@ -174,6 +177,8 @@ export class ProblemManager {
     // transfrom numbers in whitespace
     var whiteSpaceResult = ('' + problem.result).replace(/[0-9]/g, ' ');
     problem.initialText = problem.number1 + problem.operator + problem.number2 + '=' + whiteSpaceResult;
+    problem.subProblemIndex = 0;
+    problem.subProblems = [JSON.parse(JSON.stringify(problem))];
     return problem;
   }
   generateProblemBigNumbersPlus(difficulty) {
@@ -192,11 +197,70 @@ export class ProblemManager {
     problem.markedFields = [];
     var whiteSpaceResult = ('' + problem.result).replace(/[0-9]/g, ' ');
     problem.initialText = whiteSpaceResult;
+    var problemLength = (problem.initialText + '').length;
+    var numberOneArray = problem.number1.toString();
+    var numberTwoArray = problem.number2.toString();
+    var numberOneLength = numberOneArray.length;
+    var numberTwoLength = numberTwoArray.length;
+    var number2Length = (problem.number2 + '').length;
+    problem.subProblems = [];
     problem.subProblemIndex = 0;
-    problem.subProblems = [JSON.parse(JSON.stringify(problem))];
+
+    //make copy of object 'problem'
+    //problem.subProblems = [JSON.parse(JSON.stringify(problem))];
+
+    var remainder = 0;
+    var additionProblem = {};
+    for (var i=0; i<Math.max(numberOneLength,numberTwoLength); i++) {
+      //if number1.length < or > number2.length, pick numbers from right to left, if no entry, set index to 0
+      var numberOne = i<numberOneLength ? numberOneArray[numberOneLength-i-1] : 0;
+      var numberTwo = i<numberTwoLength ? numberTwoArray[numberTwoLength-i-1] : 0;
+      additionProblem={
+        number1: parseInt(numberOne),
+        number2: parseInt(numberTwo),
+        operator: ' + ',
+        remainder:  remainder,
+          // markedFields: [
+          //   { x: 0,           y: 0},
+          //   { x: - lengthToNumberOne, y: 0},
+          // ],
+        selectField: { x: - i, y: 3}
+      }
+      if(remainder>0){
+        additionProblem.initialText = additionProblem.number1 + additionProblem.operator + additionProblem.number2 + additionProblem.operator + remainder + ' = ?';
+        additionProblem.result = additionProblem.number1 + additionProblem.number2 + remainder;
+      }
+      else{
+        additionProblem.initialText = additionProblem.number1 + additionProblem.operator + additionProblem.number2 + ' = ?';
+        additionProblem.result = additionProblem.number1 + additionProblem.number2;
+      }
+      if((additionProblem.result+'').length>1){
+        remainder = Math.floor(additionProblem.result/10);
+        additionProblem.result = additionProblem.result%10;
+      }
+      else{
+        remainder = 0;
+      }
+      problem.subProblems.push(additionProblem);
+    }
+    if(remainder>0){
+      var remainderProblem = {
+        number1: additionProblem.number1,
+        number2: additionProblem.number2,
+        operator: ' + ',
+        remainder:  remainder,
+          // markedFields: [
+          //   { x: 0,           y: 0},
+          //   { x: - lengthToNumberOne, y: 0},
+          // ],
+        selectField: { x: - i, y: 3},
+        result: remainder
+      }
+      remainderProblem.initialText = additionProblem.number1 + additionProblem.operator + additionProblem.number2 + additionProblem.operator + additionProblem.remainder + ' = ?';
+      problem.subProblems.push(remainderProblem);
+    }
 
     return problem;
-
   }
   generateProblemBigNumbersMinus(difficulty) {
     var maxValue = 1000;
@@ -216,8 +280,6 @@ export class ProblemManager {
     problem.initialText = problem.number1 + '';
     problem.subProblemIndex = 0;
     problem.subProblems = [JSON.parse(JSON.stringify(problem))];
-
-
     return problem;
   }
   generateProblemBigNumbersMultiply(difficulty) {
@@ -269,19 +331,8 @@ export class ProblemManager {
     problem.subProblems.push(subProblem);
     return problem;
   }
+  // problem: xy/x
   generateProblemBigNumbersDivide(difficulty) {
-    // // problem1: xy/x
-    // var minValue1 = 5;
-    // var minValue2 = 1;
-    // var maxValue1 = 30;
-    // var maxValue2 = 9;
-    //
-    // if (difficulty = 0) {
-    //   var minValue1 = 3;
-    //   var maxValue1 = 9;
-    //   var minValue2 = 1;
-    //   var maxValue2 = 9;
-    // }
       var problem ={};
       var divisionPair = this.generateDivisionPair(2,difficulty);
       problem.number1 = divisionPair.number1;

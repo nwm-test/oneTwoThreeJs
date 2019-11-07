@@ -28,7 +28,6 @@ export class ProblemScene extends Phaser.Scene {
     var startSceneButton = new Buttons(this, gameData.canvasWidth*0.01, gameData.canvasHeight - gameData.numberButtonFontSize, 'ZURÜCK', {
       fill: '#FFFF00', fontSize: gameData.defaultButtonFontSize * 1.2
     }, () => this.backToStart());
-    console.log('heigth: ', gameData.boardHeight);
   }
   // generate next problem
   onProblemSolved() {
@@ -49,6 +48,7 @@ export class ProblemScene extends Phaser.Scene {
   onProblemUnsolved() {
     gameData.playerManager.changeDifficulty(-1);
     this.displayManager.board.showScore();
+    this.displayManager.board.showAdvice();
   }
   // call bigNumberScene
     backToStart() {
